@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		E012654623F8AFB90076E228 /* ColumnFlowLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = E012654523F8AFB90076E228 /* ColumnFlowLayout.swift */; };
+		E05E0F4323F6F40600A6995C /* AppSearchVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = E05E0F4223F6F40600A6995C /* AppSearchVC.swift */; };
+		E05E0F4523F7120E00A6995C /* CustomViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E05E0F4423F7120D00A6995C /* CustomViewCell.swift */; };
 		E0D03CB823F6067600D755D5 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0D03CB723F6067600D755D5 /* AppDelegate.swift */; };
 		E0D03CBA23F6067600D755D5 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0D03CB923F6067600D755D5 /* SceneDelegate.swift */; };
 		E0D03CC123F6068700D755D5 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E0D03CC023F6068700D755D5 /* Assets.xcassets */; };
@@ -15,6 +18,9 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		E012654523F8AFB90076E228 /* ColumnFlowLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColumnFlowLayout.swift; sourceTree = "<group>"; };
+		E05E0F4223F6F40600A6995C /* AppSearchVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppSearchVC.swift; sourceTree = "<group>"; };
+		E05E0F4423F7120D00A6995C /* CustomViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomViewCell.swift; sourceTree = "<group>"; };
 		E0D03CB423F6067600D755D5 /* AppStore.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = AppStore.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E0D03CB723F6067600D755D5 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		E0D03CB923F6067600D755D5 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -57,6 +63,9 @@
 				E0D03CCD23F613DD00D755D5 /* SearchVC.swift */,
 				E0D03CB723F6067600D755D5 /* AppDelegate.swift */,
 				E0D03CB923F6067600D755D5 /* SceneDelegate.swift */,
+				E05E0F4223F6F40600A6995C /* AppSearchVC.swift */,
+				E012654523F8AFB90076E228 /* ColumnFlowLayout.swift */,
+				E05E0F4423F7120D00A6995C /* CustomViewCell.swift */,
 				E0D03CC023F6068700D755D5 /* Assets.xcassets */,
 				E0D03CC223F6068700D755D5 /* LaunchScreen.storyboard */,
 				E0D03CC523F6068700D755D5 /* Info.plist */,
@@ -134,6 +143,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E05E0F4323F6F40600A6995C /* AppSearchVC.swift in Sources */,
+				E012654623F8AFB90076E228 /* ColumnFlowLayout.swift in Sources */,
+				E05E0F4523F7120E00A6995C /* CustomViewCell.swift in Sources */,
 				E0D03CCE23F613DD00D755D5 /* SearchVC.swift in Sources */,
 				E0D03CB823F6067600D755D5 /* AppDelegate.swift in Sources */,
 				E0D03CBA23F6067600D755D5 /* SceneDelegate.swift in Sources */,
@@ -282,7 +294,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.khelloooo.AppStore;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = 1;
+				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
 		};
@@ -300,7 +312,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.khelloooo.AppStore;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = 1;
+				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
 		};
