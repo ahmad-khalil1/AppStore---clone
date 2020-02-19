@@ -21,7 +21,7 @@ class AppSearchVC: UIViewController{
         layout.scrollDirection = .vertical
         let collection = UICollectionView(frame: CGRect(x: 0, y: 0, width: 0, height: 0), collectionViewLayout: layout)
         
-        collection.backgroundColor = UIColor.darkGray
+        collection.backgroundColor = .white
         collection.isScrollEnabled = true
         collection.translatesAutoresizingMaskIntoConstraints = false
         
@@ -65,7 +65,7 @@ extension AppSearchVC : UICollectionViewDataSource , UICollectionViewDelegate  {
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellId, for: indexPath)
-        cell.backgroundColor = .systemBlue
+        cell.backgroundColor = .white
         return cell
     }
     
