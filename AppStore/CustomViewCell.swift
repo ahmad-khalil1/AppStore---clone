@@ -9,16 +9,19 @@
 import UIKit    
 
 class CustomViewCell: UICollectionViewCell {
-    
+    var imageArray = [UIImageView]()
     //MARK:- intializing the UI elemnts
     
     let iconImage : UIImageView = {
         let image = UIImageView()
         image.translatesAutoresizingMaskIntoConstraints = false
-        image.layer.cornerRadius = 8
-        //image.clipsToBounds = true
-        image.backgroundColor = .systemRed
-        
+        image.layer.cornerRadius = 10
+        image.contentMode = .scaleAspectFit
+        //image.layer.borderWidth = 0.25
+        //image.layer.borderColor = (srgbRed: 1, green: 2, blue: 2, alpha: 2) as! CGColor
+        image.clipsToBounds = true
+        //image.backgroundColor = .systemRed
+//
         return image
     }()
     
@@ -59,9 +62,9 @@ class CustomViewCell: UICollectionViewCell {
     let getButton : UIButton = {
         let button = UIButton(type: UIButton.ButtonType.system)
         button.translatesAutoresizingMaskIntoConstraints = false
-        button.backgroundColor = .systemTeal
+        button.backgroundColor = .systemGray6
         button.layer.cornerRadius = 15
-        button.setTitle("get", for: .normal)
+        button.setTitle("GET", for: .normal)
         button.addTarget(self, action: #selector(getButtonTaped), for: .touchUpInside)
         
         return button
@@ -76,7 +79,7 @@ class CustomViewCell: UICollectionViewCell {
         image.translatesAutoresizingMaskIntoConstraints = false
         image.layer.cornerRadius = 5
         //image.clipsToBounds = true
-        image.backgroundColor = .green
+       // image.backgroundColor = .green
         
         return image
     }()
@@ -85,7 +88,7 @@ class CustomViewCell: UICollectionViewCell {
         image.translatesAutoresizingMaskIntoConstraints = false
         image.layer.cornerRadius = 5
         //image.clipsToBounds = true
-        image.backgroundColor = .systemOrange
+       // image.backgroundColor = .systemOrange
         
         return image
     }()
@@ -94,7 +97,7 @@ class CustomViewCell: UICollectionViewCell {
         image.translatesAutoresizingMaskIntoConstraints = false
         image.layer.cornerRadius = 5
         //image.clipsToBounds = true
-        image.backgroundColor = .blue
+        //image.backgroundColor = .blue
         
         return image
     }()
