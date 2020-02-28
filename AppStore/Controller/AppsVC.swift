@@ -10,13 +10,15 @@ import UIKit
 
 class AppsVC: UIViewController {
 
+    let cellId = "cell"
+    let supplemantryId = "supp"
       let collectionView : UICollectionView = {
           
           let layout = AppsColumnFlowLayout()
           layout.scrollDirection                                     = .vertical
           let collection                                             = UICollectionView(frame: CGRect(x: 0, y: 0, width: 0, height: 0), collectionViewLayout: layout)
           
-          collection.backgroundColor                                 = .yellow
+          collection.backgroundColor                                 = .white
           collection.isScrollEnabled                                 = true
           collection.translatesAutoresizingMaskIntoConstraints       = false
           
@@ -39,7 +41,9 @@ class AppsVC: UIViewController {
         super.viewDidLoad()
         
         collectionView.dataSource = self
-        collectionView.register(appsCustomViewCell.self, forCellWithReuseIdentifier: "cell")
+        collectionView.register(appsCustomViewCell.self, forCellWithReuseIdentifier: cellId)
+        collectionView.register(NestedHeaderCollectionView.self
+            , forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: supplemantryId)
 
         view.addSubview(collectionView)
         setupCollectionViewCOnstrains()
@@ -54,16 +58,23 @@ extension AppsVC : UICollectionViewDataSource , UICollectionViewDelegate  {
     
     
 //    func numberOfSections(in collectionView: UICollectionView) -> Int {
-//        return 3
+//        return 1
 //    }
-//
+
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return 3
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath)
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellId, for: indexPath)
        // cell.backgroundColor = .blue
         return cell
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
+        let suppView = collectionView.dequeueReusableSupplementaryView(ofKind:
+            kind, withReuseIdentifier: supplemantryId, for: indexPath)
+        //suppView.frame.size.height  = 250
+        return suppView
     }
 }

@@ -104,9 +104,9 @@ class appsCustomViewCell: UICollectionViewCell {
     override init(frame: CGRect) {
         super.init(frame: frame)
         
-        backgroundColor = .lightGray
-        horizontalController.view.backgroundColor = .blue
-
+//        backgroundColor = .lightGray
+//        horizontalController.view.backgroundColor = .blue
+        
         addingUIElemntsTotheView()
         setupUIConstrains()
 
