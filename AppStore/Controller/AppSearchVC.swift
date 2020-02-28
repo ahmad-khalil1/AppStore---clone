@@ -66,7 +66,7 @@ class AppSearchVC: UIViewController{
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        getRequest(term: "instegram")
+        //getRequest(term: "instegram")
         
         collectionView.delegate                                   = self
         collectionView.dataSource                                 = self
@@ -118,17 +118,6 @@ extension AppSearchVC : UICollectionViewDataSource , UICollectionViewDelegate  {
         return cell
     }
     
-    struct appResult : Codable {
-        var trackName           : String
-        var primaryGenreName    : String
-        var averageUserRating   : Double
-        var artworkUrl512       : String
-        var screenshotUrls      : [String]
-    }
-    
-    struct appSearchResults : Codable {
-        var results             : [appResult]
-    }
     
     
     func getRequest(term : String){

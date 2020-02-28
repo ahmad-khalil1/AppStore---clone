@@ -37,13 +37,25 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         return navController
     }
     
+    func createAppsNC() -> UINavigationController {
+         let appsVC = AppsVC()
+         let navController = UINavigationController(rootViewController: appsVC)
+         
+         appsVC.title = "Apps"
+         appsVC.view.backgroundColor = .systemGray6
+        appsVC.tabBarItem = UITabBarItem(title: "apps", image: UIImage(named: "apps"), tag: 1)
+
+         navController.navigationBar.prefersLargeTitles = true
+         //navController.navigationBar.barTintColor = .systemGray6
+         return navController
+     }
     
     
     func creatTabBarContoller() -> UITabBarController {
         let tabBAr = UITabBarController()
         UITabBar.appearance().tintColor = .systemRed
         
-        tabBAr.viewControllers = [createSearchNC()]
+        tabBAr.viewControllers = [createAppsNC() , createSearchNC()]
         
         return tabBAr
     }
