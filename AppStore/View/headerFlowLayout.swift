@@ -19,8 +19,8 @@ class headerFlowLayout: UICollectionViewFlowLayout {
         //
         //        let maxNumRows = Int(availabelHeight/minRowHeight)
         //        let cellHeight = (availabelHeight/CGFloat(maxNumRows)).rounded(.down)
-        print(availabelHeight)
-        print(availabelWidth)
+//        print(availabelHeight)
+//        print(availabelWidth)
         
         self.itemSize = CGSize(width: availabelWidth - 10  , height: availabelHeight)
         

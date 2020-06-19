@@ -8,66 +8,22 @@
 
 import UIKit
 
-class appsCustomViewCell: UICollectionViewCell {
+class appsCustomViewCell: UICollectionViewCell  {
     //MARK:- intializing the UI elemnts
     
-//    let iconImage : UIImageView = {
-//        let image = UIImageView()
-//        image.translatesAutoresizingMaskIntoConstraints = false
-//        image.layer.cornerRadius = 10
-//        image.contentMode = .scaleAspectFit
-//        //image.layer.borderWidth = 0.25
-//        //image.layer.borderColor = (srgbRed: 1, green: 2, blue: 2, alpha: 2) as! CGColor
-//        image.clipsToBounds = true
-//        image.backgroundColor = .systemRed
-//        //
-//        return image
-//    }()
-//
-//    let titleLabel : UILabel = {
-//        let label = UILabel()
-//        label.font = UIFont.systemFont(ofSize: 14)
-//        label.translatesAutoresizingMaskIntoConstraints = false
-//        label.text = "AppName"
-//        label.textColor = .black
-//        label.backgroundColor = .black
-//
-//        return label
-//    }()
-//
-//    let categoryLabel : UILabel = {
-//        let label = UILabel()
-//        label.font = UIFont.systemFont(ofSize: 14)
-//        label.translatesAutoresizingMaskIntoConstraints = false
-//        label.text = "appCategory"
-//        label.textColor = .black
-//        label.backgroundColor = .black
-//
-//
-//        return label
-//    }()
-//
-//    let ratingLabel : UILabel = {
-//        let label = UILabel()
-//        label.font = UIFont.systemFont(ofSize: 14)
-//        label.translatesAutoresizingMaskIntoConstraints = false
-//        label.text = "ratings"
-//        label.textColor = .black
-//        label.backgroundColor = .black
-//
-//        return label
-//    }()
-//
-//    let getButton : UIButton = {
-//        let button = UIButton(type: UIButton.ButtonType.system)
-//        button.translatesAutoresizingMaskIntoConstraints = false
-//        button.backgroundColor = .systemGray6
-//        button.layer.cornerRadius = 15
-//        button.setTitle("GET", for: .normal)
-//        button.addTarget(self, action: #selector(getButtonTaped), for: .touchUpInside)
-//
-//        return button
-//    }()
+    var appCategory : AppGroup? {
+        didSet {
+            if let name = appCategory?.title {
+                titleLabel.text = name
+            }
+        }   
+    }
+    
+    let cellId = "cellid"
+    var term = ""
+
+    
+    
     let titleLabel : UILabel = {
      let label =  UILabel()
         label.text = "App Section"
@@ -76,45 +32,74 @@ class appsCustomViewCell: UICollectionViewCell {
         return label
     }()
     
-    let horizontalController = AppsHorizontalController()
+    let horizontalAppvsCollectionView : UICollectionView =  {
+       let layout = GridFlowLayout()
+        layout.scrollDirection                                     = .horizontal
+        let collection                                             = UICollectionView(frame: CGRect(x: 0, y: 0, width: 0, height: 0), collectionViewLayout: layout)
+        
+        collection.backgroundColor                                 = .none
+        collection.isScrollEnabled                                 = true
+        collection.translatesAutoresizingMaskIntoConstraints       = false
+        
+        return collection
+    }()
     
-    func addingUIElemntsTotheView(){
-        addSubview(titleLabel)
-        addSubview(horizontalController.view)
-
-    }
+//    let horizontalController = AppsHorizontalController()
     
-    func setupUIConstrains(){
-
-        titleLabel.topAnchor.constraint(equalTo: self.safeAreaLayoutGuide.topAnchor).isActive              = true
-        titleLabel.leadingAnchor.constraint(equalTo: self.safeAreaLayoutGuide.leadingAnchor , constant: 15).isActive      = true
-        titleLabel.trailingAnchor.constraint(equalTo: self.safeAreaLayoutGuide.trailingAnchor).isActive    = true
-
-        horizontalController.view.topAnchor.constraint(equalTo: titleLabel.bottomAnchor).isActive = true
-        horizontalController.view.leadingAnchor.constraint(equalTo: self.safeAreaLayoutGuide.leadingAnchor).isActive = true
-        horizontalController.view.trailingAnchor.constraint(equalTo: self.safeAreaLayoutGuide.trailingAnchor).isActive = true
-        horizontalController.view.bottomAnchor.constraint(equalTo: self.safeAreaLayoutGuide.bottomAnchor).isActive = true
-    }
     
-    @objc func getButtonTaped(_ sender : UIButton ) {
-        sender.backgroundColor = .orange
-    }   
+   
+        func addingUIElemntsTotheView(){
+            addSubview(titleLabel)
+            addSubview(horizontalAppvsCollectionView)
+        }
+        
+        func setupUIConstrains(){
+
+            titleLabel.topAnchor.constraint(equalTo: self.safeAreaLayoutGuide.topAnchor).isActive              = true
+            titleLabel.leadingAnchor.constraint(equalTo: self.safeAreaLayoutGuide.leadingAnchor , constant: 15).isActive      = true
+            titleLabel.trailingAnchor.constraint(equalTo: self.safeAreaLayoutGuide.trailingAnchor).isActive    = true
+
+            horizontalAppvsCollectionView.topAnchor.constraint(equalTo: titleLabel.bottomAnchor).isActive = true
+            horizontalAppvsCollectionView.leadingAnchor.constraint(equalTo: self.safeAreaLayoutGuide.leadingAnchor , constant: 15 ).isActive = true
+            horizontalAppvsCollectionView.trailingAnchor.constraint(equalTo: self.safeAreaLayoutGuide.trailingAnchor).isActive = true
+            horizontalAppvsCollectionView.bottomAnchor.constraint(equalTo: self.safeAreaLayoutGuide.bottomAnchor).isActive = true
+        }
+       
+    
+    
+   
     
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        
-//        backgroundColor = .lightGray
-//        horizontalController.view.backgroundColor = .blue
-        
+        horizontalAppvsCollectionView.dataSource = self
+        horizontalAppvsCollectionView.register(customHorizontalCollectionViewCell.self, forCellWithReuseIdentifier: cellId)
+//        horizontalController.term = term
         addingUIElemntsTotheView()
         setupUIConstrains()
-
+        //setUp(controller: )
         
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+    
+}
+extension appsCustomViewCell : UICollectionViewDataSource {
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        if let count = appCategory?.results?.count {
+            return count
+        }
+        return 0
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let cell = horizontalAppvsCollectionView.dequeueReusableCell(withReuseIdentifier: cellId, for: indexPath) as! customHorizontalCollectionViewCell
+        cell.app = appCategory?.results?[indexPath.row]
+         
+        return cell
+    }
+    
     
 }

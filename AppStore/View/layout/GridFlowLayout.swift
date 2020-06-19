@@ -21,8 +21,8 @@ class GridFlowLayout: UICollectionViewFlowLayout {
 //
 //        let maxNumRows = Int(availabelHeight/minRowHeight)
 //        let cellHeight = (availabelHeight/CGFloat(maxNumRows)).rounded(.down)
-        print((availabelHeight/3) - 3)
-        print(availabelWidth)
+//        print((availabelHeight/3) - 3)
+//        print(availabelWidth)
         
         self.itemSize = CGSize(width: availabelWidth - 12 , height: (availabelHeight/3) - 3)
 

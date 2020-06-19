@@ -23,7 +23,7 @@ class headercollectionView: UICollectionViewController {
         
         view.translatesAutoresizingMaskIntoConstraints  = false
         if let layout = collectionViewLayout as? headerFlowLayout {
-            print("yes")
+           // print("yes")
             layout.scrollDirection  = .horizontal
             //layout.itemSize         = CGSize(width: collectionView.bounds.inset(by: collectionView.layoutMargins).width, height: collectionView.bounds.inset(by: collectionView.layoutMargins).height)
         }

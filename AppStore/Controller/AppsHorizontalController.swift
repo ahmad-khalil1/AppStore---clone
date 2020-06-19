@@ -7,10 +7,31 @@
 //
 
 import UIKit
+import SDWebImage
 
-class AppsHorizontalController: UIViewController {
-
+class AppsHorizontalController: UIViewController  {
+    
+    var apps = [App]()
     let cellId                                                     = "cellid"
+//    let appGroup                                                   = AppGroup()
+//    
+//    
+//      init( data:AppGroup?) {
+//        if let dataApps = data?.apps {
+//            apps = dataApps
+//            print("done Init ")
+//        }
+//        super.init(nibName: nil, bundle: nil)
+//    
+//        // Setup Subviews.
+//        //setup()
+//    }
+
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    
     let collectionView : UICollectionView = {
         
         let layout = GridFlowLayout()
@@ -40,15 +61,23 @@ class AppsHorizontalController: UIViewController {
         super.viewDidLoad()
         
         self.view.translatesAutoresizingMaskIntoConstraints = false
+        //let appsVc = AppsVC()
+        
+        //appsVc.delegate = self
         
         collectionView.dataSource = self
         collectionView.register(customHorizontalCollectionViewCell.self, forCellWithReuseIdentifier: cellId)
-        
+        //print(term)
         view.addSubview(collectionView)
         setupCollectionViewCOnstrains()
-        
+//        getRequest(term: term)
     }
+
     
+//    func termForCell(term: String) {
+//        getRequest(term: term)
+//
+//    }
 }
 
 extension AppsHorizontalController : UICollectionViewDataSource , UICollectionViewDelegate  {
@@ -56,12 +85,18 @@ extension AppsHorizontalController : UICollectionViewDataSource , UICollectionVi
     
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 10
+        return apps.count
         
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellId, for: indexPath) as! customHorizontalCollectionViewCell
+        cell.titleLabel.text             = apps[indexPath.row].name
+        cell.categoryLabel.text          = apps[indexPath.row].artistName
+        if let url = apps[indexPath.row].artworkUrl100{
+        cell.iconImage.sd_setImage(with: URL(string: url  ), placeholderImage: UIImage(named: "placeholder" ))
+        }
+        //print("\(appGroup.appGroupArray.count)" + "      appHorizontal cell")
         //cell.backgroundColor = .blue
         return cell
     }
@@ -71,3 +106,85 @@ extension AppsHorizontalController : UICollectionViewDataSource , UICollectionVi
     //        return CGSize(width: availabelWidth , height: 230)
     //    }
 }
+
+
+
+//extension AppsHorizontalController {
+//
+//
+//    func getRequest(term : String){
+//
+//
+//        let url = URL(string: "https://rss.itunes.apple.com/api/v1/us/ios-apps/\(term)/all/10/explicit.json")
+//        print(url)
+//
+//        let session              = URLSession.shared
+//        let task                 = session.dataTask(with: url!){ data , response , error in
+//            if error != nil || data == nil {
+//                print("client error")
+//                return
+//            }
+//            guard let response   = response as? HTTPURLResponse , (200...299).contains(response.statusCode) else {
+//                print("server error")
+//                return
+//            }
+//            //            guard let mime = response.mimeType, mime == "application/json" else {
+//            //                print("Wrong MIME type!")
+//            //                return
+//            //            }
+//
+//            //            do {
+//            //                let json = try JSONSerialization.jsonObject(with: data!, options:[])
+//            //                print(json)
+//            //            }catch{
+//            //                print("JSON error: \(error.localizedDescription)")
+//            //            }
+//            print(data)
+//            self.parseJSON(json: data!)
+//
+//        }
+//
+//
+//
+//        task.resume()
+//    }
+//
+//    func parseJSON(json : Data){
+//
+//        let decoder = JSONDecoder()
+//        do{
+//            let parsedData = try decoder.decode(appsFeed.self, from: json)
+//            //if !parsedData.results.isEmpty {
+//            print(parsedData.feed.results[0].name + "----------" + parsedData.feed.results[1].name)
+//
+//            apps = parsedData.feed.results
+////            appGroup.appGroupArray = apps
+////            print("\(appGroup.appGroupArray.count)" + "      pars printing")
+//
+//            DispatchQueue.main.async {
+//
+//                self.collectionView.backgroundView = nil
+//                self.collectionView.reloadData()
+//            }
+//            //}else {
+//            //self.searchAbleItems.removeAll()
+//                //DispatchQueue.main.async {
+//                  //  self.collectionView.reloadData()
+//                    //if let searchBarText = self.searchController.searchBar.text {
+//                      //  self.termsFailslabel.text!                                += "\(searchBarText)"
+//                    //}
+//                    //self.collectionView.backgroundView                  = self.termsFailslabel
+//                    //                    self.collectionView.isHidden                   = true
+//                    //                    self.termsFailslabel.isHidden                  = false
+//                    // self.collectionView.backgroundView = label
+//                    //self.collectionView.reloadData()
+//
+//               // } }
+//
+//
+//        }catch{
+//            print("\(error)")
+//        }
+//
+//    }
+//}

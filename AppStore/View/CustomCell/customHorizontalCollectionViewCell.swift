@@ -7,8 +7,25 @@
 //
 
 import UIKit
+import SDWebImage
 
 class customHorizontalCollectionViewCell: UICollectionViewCell {
+    
+    var app:App? {
+        didSet{
+            if let app = app {
+                if let name = app.name {
+                    titleLabel.text = name
+                }
+                if let categoryName = app.artistName {
+                    categoryLabel.text = categoryName
+                }
+                if let url = app.artworkUrl100 {
+                    iconImage.sd_setImage(with: URL(string: url), placeholderImage: UIImage(named: "placeholder"))
+                }
+            }
+        }
+    }
     
     let iconImage : UIImageView = {
         let image = UIImageView()
@@ -27,7 +44,7 @@ class customHorizontalCollectionViewCell: UICollectionViewCell {
         let label                                             = UILabel()
         label.font                                            = UIFont.systemFont(ofSize: 20)
         label.translatesAutoresizingMaskIntoConstraints       = false
-        label.text                                            = "AppName"
+        //label.text                                            = "AppName"
         label.textColor                                       = .black
         //label.backgroundColor = .black
         

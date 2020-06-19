@@ -79,7 +79,7 @@ class HeaderCustomHorizontalCollectionViewCell: UICollectionViewCell {
     }
     override init(frame: CGRect) {
            super.init(frame: frame)
-        print("here is the cell")
+       // print("here is the cell")
            //backgroundColor = .red
            addingUIElemntsTotheView()
            setupUIConstrains()
