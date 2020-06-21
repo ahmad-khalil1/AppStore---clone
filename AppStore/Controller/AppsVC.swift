@@ -65,7 +65,6 @@ class AppsVC: UIViewController {
                  self.appsGroupArray = appsGroups
                  DispatchQueue.main.async {
                      self.collectionView.reloadData()
-                     
                  }
              }
          }

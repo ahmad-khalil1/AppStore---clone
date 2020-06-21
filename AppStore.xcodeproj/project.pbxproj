@@ -21,7 +21,7 @@
 		E012654623F8AFB90076E228 /* ColumnFlowLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = E012654523F8AFB90076E228 /* ColumnFlowLayout.swift */; };
 		E05E0F4323F6F40600A6995C /* AppSearchVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = E05E0F4223F6F40600A6995C /* AppSearchVC.swift */; };
 		E05E0F4523F7120E00A6995C /* CustomViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E05E0F4423F7120D00A6995C /* CustomViewCell.swift */; };
-		E09CAC7D240953BB00742DC6 /* headercollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E09CAC7C240953BB00742DC6 /* headercollectionView.swift */; };
+		E09CAC7D240953BB00742DC6 /* headercollectionVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = E09CAC7C240953BB00742DC6 /* headercollectionVC.swift */; };
 		E09CAC7F2409626F00742DC6 /* HeaderCustomHorizontalCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E09CAC7E2409626F00742DC6 /* HeaderCustomHorizontalCollectionViewCell.swift */; };
 		E09CAC812409726500742DC6 /* headerFlowLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = E09CAC802409726500742DC6 /* headerFlowLayout.swift */; };
 		E0A22CFF2407FEC2004FEDF3 /* GridFlowLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0A22CFE2407FEC2004FEDF3 /* GridFlowLayout.swift */; };
@@ -56,7 +56,7 @@
 		E012654523F8AFB90076E228 /* ColumnFlowLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColumnFlowLayout.swift; sourceTree = "<group>"; };
 		E05E0F4223F6F40600A6995C /* AppSearchVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppSearchVC.swift; sourceTree = "<group>"; };
 		E05E0F4423F7120D00A6995C /* CustomViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomViewCell.swift; sourceTree = "<group>"; };
-		E09CAC7C240953BB00742DC6 /* headercollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = headercollectionView.swift; path = AppStore/View/headercollectionView.swift; sourceTree = SOURCE_ROOT; };
+		E09CAC7C240953BB00742DC6 /* headercollectionVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = headercollectionVC.swift; path = AppStore/View/headercollectionVC.swift; sourceTree = SOURCE_ROOT; };
 		E09CAC7E2409626F00742DC6 /* HeaderCustomHorizontalCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeaderCustomHorizontalCollectionViewCell.swift; sourceTree = "<group>"; };
 		E09CAC802409726500742DC6 /* headerFlowLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = headerFlowLayout.swift; path = AppStore/View/headerFlowLayout.swift; sourceTree = SOURCE_ROOT; };
 		E0A22CFE2407FEC2004FEDF3 /* GridFlowLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GridFlowLayout.swift; sourceTree = "<group>"; };
@@ -100,9 +100,9 @@
 			isa = PBXGroup;
 			children = (
 				1362C65A249D25CA0062F5F9 /* Encode */,
+				1362C657249D258C0062F5F9 /* Endpiont */,
 				1362C659249D25B60062F5F9 /* Manager */,
 				1362C658249D25A90062F5F9 /* Service */,
-				1362C657249D258C0062F5F9 /* Endpiont */,
 			);
 			path = Networking;
 			sourceTree = "<group>";
@@ -179,7 +179,7 @@
 				E05E0F4223F6F40600A6995C /* AppSearchVC.swift */,
 				E0A87A552406F0DC00BD3F4A /* AppsVC.swift */,
 				E0A87A5D240747FA00BD3F4A /* AppsHorizontalController.swift */,
-				E09CAC7C240953BB00742DC6 /* headercollectionView.swift */,
+				E09CAC7C240953BB00742DC6 /* headercollectionVC.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -386,7 +386,7 @@
 				1362C669249D263E0062F5F9 /* AppsFeedEndPiont.swift in Sources */,
 				E0A90AD0240A83350038D8B5 /* AppGroub.swift in Sources */,
 				1362C665249D26320062F5F9 /* HTTPTask.swift in Sources */,
-				E09CAC7D240953BB00742DC6 /* headercollectionView.swift in Sources */,
+				E09CAC7D240953BB00742DC6 /* headercollectionVC.swift in Sources */,
 				E0D03CBA23F6067600D755D5 /* SceneDelegate.swift in Sources */,
 				E0A87A5A24073B8100BD3F4A /* AppsColumnFlowLayout.swift in Sources */,
 			);

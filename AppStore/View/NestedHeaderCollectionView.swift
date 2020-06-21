@@ -21,7 +21,7 @@ class NestedHeaderCollectionView: UICollectionReusableView  {
 //    }()
     
     
-    let collectionView = headercollectionView(collectionViewLayout: headerFlowLayout())
+    let collectionView = headercollectionVC(collectionViewLayout: headerFlowLayout())
 
     
     fileprivate func setUpConstrains() {

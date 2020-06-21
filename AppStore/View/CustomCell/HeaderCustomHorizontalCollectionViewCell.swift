@@ -27,7 +27,7 @@ class HeaderCustomHorizontalCollectionViewCell: UICollectionViewCell {
         label.font                                            = UIFont.systemFont(ofSize: 20)
         label.translatesAutoresizingMaskIntoConstraints       = false
         label.numberOfLines                                   = 0
-        label.text                                            = "Keeping up with friends is faster than ever "
+        //label.text                                            = "Keeping up with friends is faster than ever "
         label.textColor                                       = .black
         //label.backgroundColor = .black
         return label
@@ -38,7 +38,7 @@ class HeaderCustomHorizontalCollectionViewCell: UICollectionViewCell {
         label.font                                            = UIFont.systemFont(ofSize: 12
         )
         label.translatesAutoresizingMaskIntoConstraints       = false
-        label.text                                            = "Facebook"
+       // label.text                                            = "Facebook"
         label.textColor                                       = .black
         //label.backgroundColor = .black
         
@@ -49,11 +49,11 @@ class HeaderCustomHorizontalCollectionViewCell: UICollectionViewCell {
         let image                                            = UIImageView()
         image.translatesAutoresizingMaskIntoConstraints      = false
         image.layer.cornerRadius                             = 8
-        image.contentMode                                    = .scaleAspectFit
+        image.contentMode                                    = .scaleAspectFill
         //image.layer.borderWidth = 0.25
         //image.layer.borderColor = (srgbRed: 1, green: 2, blue: 2, alpha: 2) as! CGColor
         image.clipsToBounds = true
-        image.backgroundColor                                = .gray
+        //image.backgroundColor                                = .gray
         //
         return image
     }()
