@@ -100,29 +100,31 @@ extension AppSearchVC : UICollectionViewDataSource , UICollectionViewDelegate  {
         cell.backgroundColor          = .white
         cell.titleLabel.text          = searchAbleItems[indexPath.row].trackName
         cell.categoryLabel.text       = searchAbleItems[indexPath.row].primaryGenreName
-        cell.ratingLabel.text         = String( searchAbleItems[indexPath.row].averageUserRating )
+        if let rating                 = searchAbleItems[indexPath.row].averageUserRating{
+            cell.ratingLabel.text     = String( rating )
+        }
         setImageFromUrlTakingIndex(cell, indexPath)
         
         return cell
     }
     
     fileprivate func setImageFromUrlTakingIndex(_ cell: CustomViewCell, _ indexPath: IndexPath) {
-        cell.iconImage.sd_setImage(with: URL(string: searchAbleItems[indexPath.row].artworkUrl512) , placeholderImage: UIImage(named: "placeholder") )
-        cell.appImages.sd_setImage(with: URL(string: searchAbleItems[indexPath.row].screenshotUrls[0]), placeholderImage: UIImage(named: "placeholder"))
-        
-        if searchAbleItems[indexPath.row].screenshotUrls.count > 2 {
-            
-            cell.appImages1.sd_setImage(with: URL(string: searchAbleItems[indexPath.row].screenshotUrls[1]), placeholderImage: UIImage(named: "placeholder"))
-            cell.appImages2.sd_setImage(with: URL(string: searchAbleItems[indexPath.row].screenshotUrls[2]), placeholderImage: UIImage(named: "placeholder"))
-            
+        if let iconImageUrl = searchAbleItems[indexPath.row].artworkUrl512 {
+            cell.iconImage.sd_setImage(with: URL(string: iconImageUrl) , placeholderImage: UIImage(named: "placeholder") )
         }
-    }
+        if let screnShotUrlArray = searchAbleItems[indexPath.row].screenshotUrls {
+            cell.appImages.sd_setImage(with: URL(string:screnShotUrlArray[0] ), placeholderImage: UIImage(named: "placeholder"))
+            if screnShotUrlArray.count > 2 {
+                cell.appImages1.sd_setImage(with: URL(string: screnShotUrlArray[1]), placeholderImage: UIImage(named: "placeholder"))
+                cell.appImages2.sd_setImage(with: URL(string: screnShotUrlArray[2]), placeholderImage: UIImage(named: "placeholder"))
+            }
+        }
+    }    
 }
 
 //MARK:- SearchController ResultUpdating Methods.
 
 extension AppSearchVC : UISearchResultsUpdating , UISearchBarDelegate {
-    
     
     // responsable for take action when text change
     func updateSearchResults(for searchController: UISearchController) {
@@ -148,12 +150,10 @@ extension AppSearchVC : UISearchResultsUpdating , UISearchBarDelegate {
                     self.collectionView.backgroundView = nil
                     self.collectionView.reloadData()
                 }
-            }
-            
-            if let result = appResults?.results.isEmpty {
+            }else {
                 self.searchAbleItems.removeAll()
-                
                 DispatchQueue.main.async {
+                    self.termsFailslabel.text!                          = "No Results For \n"
                     self.termsFailslabel.text!                         += searchText
                     self.collectionView.backgroundView                  = self.termsFailslabel
                     self.collectionView.reloadData()
@@ -161,6 +161,7 @@ extension AppSearchVC : UISearchResultsUpdating , UISearchBarDelegate {
             }
         }
     }
+    
 }
 
 

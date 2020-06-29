@@ -19,6 +19,7 @@ class AppsVC: UIViewController {
     let supplemantryId                               = "supp"
     let networkManager                               = NetworkManager()
     var appsGroupArray : [AppGroup]?                 = [AppGroup]()
+    let didCellectCellNotifcationName                = Notification.Name("didSelectAppCell")
     
     //MARK:- UI Elements.
 
@@ -51,12 +52,25 @@ class AppsVC: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        NotificationCenter.default.addObserver(self, selector: #selector(handelAppSelection), name: didCellectCellNotifcationName, object: nil)
+        
         getAppsFeed()
         ConfigureCollectionView()
 
         view.addSubview(collectionView)
         setupCollectionViewCOnstrains()
         
+    }
+    
+    @objc fileprivate func handelAppSelection(_ notifcation : Notification){
+        if let appDict = notifcation.userInfo as? [String : App ] {
+            if let app = appDict["app"]{
+                let vC = AppDetailVC(id: app.id!)
+                // vC.view.backgroundColor = .blue
+                //vC.navigationItem.title = app.name
+                self.navigationController?.pushViewController(vC, animated: true)
+            }
+        }
     }
     
     fileprivate func getAppsFeed() {
@@ -76,6 +90,7 @@ class AppsVC: UIViewController {
         collectionView.register(NestedHeaderCollectionView.self
             , forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: supplemantryId)
     }
+    
 }
 
 //MARK:- collectionView DataSource and Delegate Methods.
@@ -101,5 +116,6 @@ extension AppsVC : UICollectionViewDataSource , UICollectionViewDelegate  {
         //suppView.frame.size.height  = 250
         return suppView
     }
+    
 }
 

@@ -11,26 +11,21 @@ import SDWebImage
 
 class headercollectionVC: UICollectionViewController {
 
+    //MARK:- VC Properties and objects.
     
     private let cellId = "Cellid"
     var headerAppsArray : [headerApp]? = [headerApp]()
     let networkManager = NetworkManager()
-
-   
+    
+    //MARK:- View Life Cycle.
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        collectionView.register(HeaderCustomHorizontalCollectionViewCell.self, forCellWithReuseIdentifier: cellId)
-        collectionView.isScrollEnabled    = true
-        
-        view.translatesAutoresizingMaskIntoConstraints  = false
-        if let layout = collectionViewLayout as? headerFlowLayout {
-           // print("yes")
-            layout.scrollDirection  = .horizontal
-            //layout.itemSize         = CGSize(width: collectionView.bounds.inset(by: collectionView.layoutMargins).width, height: collectionView.bounds.inset(by: collectionView.layoutMargins).height)
-        }
-        collectionView.backgroundColor   = .white
-        
+        ConfigureCollectionView()
+        getHeaderApps()
+    }
+    
+    fileprivate func getHeaderApps() {
         networkManager.getHeaderApps { ( headerApps , error) in
             if let headerApps = headerApps {
                 self.headerAppsArray = headerApps
@@ -40,7 +35,19 @@ class headercollectionVC: UICollectionViewController {
             }
         }
     }
-
+    
+    fileprivate func ConfigureCollectionView() {
+        collectionView.register(HeaderCustomHorizontalCollectionViewCell.self, forCellWithReuseIdentifier: cellId)
+        collectionView.isScrollEnabled    = true
+        collectionView.backgroundColor   = .white
+        view.translatesAutoresizingMaskIntoConstraints  = false
+        
+        if let layout = collectionViewLayout as? headerFlowLayout {
+            layout.scrollDirection  = .horizontal
+        }
+    }
+    
+    //MARK:- collectionView DataSource and Delegate Methods.
     
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         if let count  = headerAppsArray?.count {
@@ -48,7 +55,7 @@ class headercollectionVC: UICollectionViewController {
         }
         return 0
     }
-
+    
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellId, for: indexPath) as! HeaderCustomHorizontalCollectionViewCell
         //cell.backgroundColor = .white
@@ -64,6 +71,4 @@ class headercollectionVC: UICollectionViewController {
         return cell
     }
     
-
-
 }

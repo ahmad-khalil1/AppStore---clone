@@ -43,7 +43,11 @@ struct NetworkManager {
                     }
                     do {
                         let ParsedData = try JSONDecoder().decode(appSearchResults.self, from: responseDate)
-                        completion( ParsedData , nil)
+                        if ParsedData.results.isEmpty {
+                            completion( nil , nil)
+                        }else {
+                            completion( ParsedData , nil)
+                        }
                     }catch {
                         print(error)
                         completion(nil , NetworkResponse.unableToDecode.rawValue)
@@ -85,6 +89,33 @@ struct NetworkManager {
                     case .failure(let netowrkFailureError ):
                         completion(nil , netowrkFailureError)
                     }
+                }
+            }
+        }
+    }
+    
+    func getAppDetail(with id: String , completion : @escaping (_ : appResult? , _ : String?  )->() ) {
+        appsFeedRouter.request(.lookUp(id: id)) { (data, response , error) in
+            if error != nil {
+                completion( nil , NetworkResponse.badConnection.rawValue )
+            }
+            if let response = response as? HTTPURLResponse {
+                let result = self.handleNetworkResponse(response)
+                switch result {
+                case .success:
+                    guard let responseDate = data else {
+                        completion(nil , NetworkResponse.noData.rawValue)
+                        return
+                    }
+                    do{
+                        let parsedData = try JSONDecoder().decode(appSearchResults.self, from: responseDate)
+                        completion( parsedData.results[0] , nil )
+                    }catch{
+                        print(error)
+                        completion( nil , NetworkResponse.unableToDecode.rawValue)
+                    }
+                case .failure(let netowrkFailureError ):
+                    completion(nil , netowrkFailureError)
                 }
             }
         }

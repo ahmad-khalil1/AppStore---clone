@@ -9,10 +9,10 @@
 import UIKit
 
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
-
+    
     var window: UIWindow?
-
-
+    
+    
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
         
         guard let windowScene = (scene as? UIWindowScene) else { return }
@@ -31,24 +31,24 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         searchNC.title = "Search"
         searchNC.view.backgroundColor = .systemGray6
         searchNC.tabBarItem = UITabBarItem(tabBarSystemItem: .search, tag: 0)
-
+        
         navController.navigationBar.prefersLargeTitles = true
         //navController.navigationBar.barTintColor = .systemGray6
         return navController
     }
     
     func createAppsNC() -> UINavigationController {
-         let appsVC = AppsVC()
-         let navController = UINavigationController(rootViewController: appsVC)
-         
-         appsVC.title = "Apps"
-         appsVC.view.backgroundColor = .systemGray6
+        let appsVC = AppsVC()
+        let navController = UINavigationController(rootViewController: appsVC)
+        
+        appsVC.title = "Apps"
+        appsVC.view.backgroundColor = .systemGray6
         appsVC.tabBarItem = UITabBarItem(title: "apps", image: UIImage(named: "apps"), tag: 1)
-
-         navController.navigationBar.prefersLargeTitles = true
-         //navController.navigationBar.barTintColor = .systemGray6
-         return navController
-     }
+        
+        navController.navigationBar.prefersLargeTitles = true
+        //navController.navigationBar.barTintColor = .systemGray6
+        return navController
+    }
     
     
     func creatTabBarContoller() -> UITabBarController {
@@ -59,7 +59,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         
         return tabBAr
     }
-
+    
     func sceneDidDisconnect(_ scene: UIScene) {
         // Called as the scene is being released by the system.
         // This occurs shortly after the scene enters the background, or when its session is discarded.

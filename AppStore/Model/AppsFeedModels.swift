@@ -22,6 +22,7 @@ struct App : Codable  {
     var artistName          : String?
     var artistId            : String?
     var artworkUrl100       : String?
+    var id                  : String?
 }
 
 struct headerApp : Codable {

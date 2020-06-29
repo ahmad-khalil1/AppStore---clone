@@ -11,7 +11,7 @@ import Foundation
 public enum AppsFeedEndPiont {
     case appsFeed(appGroup : String )
     case headerFeed
-    
+    case lookUp(id : String)
 }
 
 extension AppsFeedEndPiont : EndPiontType {
@@ -23,6 +23,9 @@ extension AppsFeedEndPiont : EndPiontType {
         case .headerFeed:
             guard let url = URL(string: "https://api.letsbuildthatapp.com") else  { fatalError("baseURL of appsFeed could not be configured.") }
             return url
+        case .lookUp:
+            guard let url = URL(string: "https://itunes.apple.com") else { fatalError("baseURL of appsFeed could not be configured.") }
+            return url
         }
     }
     
@@ -32,6 +35,8 @@ extension AppsFeedEndPiont : EndPiontType {
             return "api/v1/us/ios-apps/\(appGroup)/all/10/explicit.json"
         case .headerFeed:
             return "appstore/social"
+        case .lookUp:
+            return "lookup"
         }
     }
     
@@ -41,11 +46,13 @@ extension AppsFeedEndPiont : EndPiontType {
             return .request
         case .headerFeed:
             return .request
+        case .lookUp(let id):
+            return.requestPrameters(urlPrameter: ["id" : id], prameterEncoding: .UrlEncoding)
+            
         }
     }
     
     var HttpMethod: String {
         return "GET"
     }
-    
 }

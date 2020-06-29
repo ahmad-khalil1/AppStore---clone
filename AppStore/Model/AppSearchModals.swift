@@ -9,11 +9,18 @@
 import Foundation
 
 struct appResult : Codable {
-    var trackName           : String
-    var primaryGenreName    : String
-    var averageUserRating   : Double
-    var artworkUrl512       : String
-    var screenshotUrls      : [String]
+    var trackName           : String?
+    var primaryGenreName    : String?
+    var averageUserRating   : Double?
+    var artworkUrl512       : String?
+    var screenshotUrls      : [String]?
+    
+    // AppLookup
+    var releaseNotes        : String?
+    var sellerName          : String?
+    var price               : Double?
+    var currency            : String?
+    
 }
 
 struct appSearchResults : Codable {

@@ -18,9 +18,9 @@ class appsCustomViewCell: UICollectionViewCell  {
             }
         }   
     }
-    
     let cellId = "cellid"
     var term = ""
+    let didselecthandler = ((App) -> ()).self
 
     
     
@@ -73,6 +73,7 @@ class appsCustomViewCell: UICollectionViewCell  {
     override init(frame: CGRect) {
         super.init(frame: frame)
         horizontalAppvsCollectionView.dataSource = self
+        horizontalAppvsCollectionView.delegate   = self
         horizontalAppvsCollectionView.register(customHorizontalCollectionViewCell.self, forCellWithReuseIdentifier: cellId)
 //        horizontalController.term = term
         addingUIElemntsTotheView()
@@ -96,10 +97,27 @@ extension appsCustomViewCell : UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = horizontalAppvsCollectionView.dequeueReusableCell(withReuseIdentifier: cellId, for: indexPath) as! customHorizontalCollectionViewCell
-        cell.app = appCategory?.results?[indexPath.row]
-         
+        if let app = appCategory?.results?[indexPath.row] {
+            cell.app = app
+            
+        }
         return cell
     }
-    
-    
+}
+
+extension appsCustomViewCell : UICollectionViewDelegate {
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+//        let child  = self.window?.rootViewController?.children
+//        if let appsVC = child?[1] {
+//            let nC = appsVC.navigationController
+//            let vC = UIViewController()
+//            vC.view.backgroundColor = .blue
+//            nC?.pushViewController(vC, animated: true)
+//        }
+        if let app = appCategory?.results?[indexPath.row] {
+            NotificationCenter.default.post(name: Notification.Name("didSelectAppCell"), object: nil , userInfo: ["app" : app])
+            
+        }
+        
+    }
 }
