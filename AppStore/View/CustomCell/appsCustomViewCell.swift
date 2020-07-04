@@ -36,7 +36,7 @@ class appsCustomViewCell: UICollectionViewCell  {
        let layout = GridFlowLayout()
         layout.scrollDirection                                     = .horizontal
         let collection                                             = UICollectionView(frame: CGRect(x: 0, y: 0, width: 0, height: 0), collectionViewLayout: layout)
-        
+        collection.contentInset                                    = .init(top: 0, left: 15, bottom: 0, right: 15)
         collection.backgroundColor                                 = .none
         collection.isScrollEnabled                                 = true
         collection.translatesAutoresizingMaskIntoConstraints       = false
@@ -55,14 +55,14 @@ class appsCustomViewCell: UICollectionViewCell  {
         
         func setupUIConstrains(){
 
-            titleLabel.topAnchor.constraint(equalTo: self.safeAreaLayoutGuide.topAnchor).isActive              = true
+            titleLabel.topAnchor.constraint(equalTo: self.safeAreaLayoutGuide.topAnchor, constant: 5 ).isActive              = true
             titleLabel.leadingAnchor.constraint(equalTo: self.safeAreaLayoutGuide.leadingAnchor , constant: 15).isActive      = true
             titleLabel.trailingAnchor.constraint(equalTo: self.safeAreaLayoutGuide.trailingAnchor).isActive    = true
 
-            horizontalAppvsCollectionView.topAnchor.constraint(equalTo: titleLabel.bottomAnchor).isActive = true
-            horizontalAppvsCollectionView.leadingAnchor.constraint(equalTo: self.safeAreaLayoutGuide.leadingAnchor , constant: 15 ).isActive = true
+            horizontalAppvsCollectionView.topAnchor.constraint(equalTo: titleLabel.bottomAnchor , constant: 15 ).isActive = true
+            horizontalAppvsCollectionView.leadingAnchor.constraint(equalTo: self.safeAreaLayoutGuide.leadingAnchor ).isActive = true
             horizontalAppvsCollectionView.trailingAnchor.constraint(equalTo: self.safeAreaLayoutGuide.trailingAnchor).isActive = true
-            horizontalAppvsCollectionView.bottomAnchor.constraint(equalTo: self.safeAreaLayoutGuide.bottomAnchor).isActive = true
+            horizontalAppvsCollectionView.bottomAnchor.constraint(equalTo: self.safeAreaLayoutGuide.bottomAnchor , constant: -15 ).isActive = true
         }
        
     
@@ -118,6 +118,5 @@ extension appsCustomViewCell : UICollectionViewDelegate {
             NotificationCenter.default.post(name: Notification.Name("didSelectAppCell"), object: nil , userInfo: ["app" : app])
             
         }
-        
     }
 }

@@ -53,6 +53,8 @@ class AppDetailInfoCVC: UICollectionViewCell {
         image.backgroundColor                             = .black
         image.contentMode                                 = .scaleAspectFit
         image.clipsToBounds                               = true
+        image.layer.borderWidth                           = 0.25
+        image.layer.borderColor                           = UIColor.systemGray.cgColor
         image.layer.cornerRadius                          = 25
         image.translatesAutoresizingMaskIntoConstraints   = false
         
@@ -159,24 +161,24 @@ class AppDetailInfoCVC: UICollectionViewCell {
         verticalStack.heightAnchor.constraint(equalToConstant: 120).isActive = true
         
         horizantalStack.topAnchor.constraint(equalTo: self.layoutMarginsGuide.topAnchor).isActive  = true
-        horizantalStack.leadingAnchor.constraint(equalTo: self.layoutMarginsGuide.leadingAnchor).isActive  = true
-        horizantalStack.trailingAnchor.constraint(equalTo: self.layoutMarginsGuide.trailingAnchor).isActive  = true
+        horizantalStack.leadingAnchor.constraint(equalTo: self.safeAreaLayoutGuide.leadingAnchor , constant: 15).isActive  = true
+        horizantalStack.trailingAnchor.constraint(equalTo: self.safeAreaLayoutGuide.trailingAnchor , constant: -15 ).isActive  = true
         horizantalStack.heightAnchor.constraint(equalToConstant: 120).isActive = true
         
         whatsNewLabel.topAnchor.constraint(equalTo: horizantalStack.bottomAnchor , constant: 15).isActive  = true
-        whatsNewLabel.leadingAnchor.constraint(equalTo: self.layoutMarginsGuide.leadingAnchor).isActive  = true
-        whatsNewLabel.trailingAnchor.constraint(equalTo: self.layoutMarginsGuide.trailingAnchor).isActive  = true
+        whatsNewLabel.leadingAnchor.constraint(equalTo: self.safeAreaLayoutGuide.leadingAnchor , constant: 15).isActive  = true
+        whatsNewLabel.trailingAnchor.constraint(equalTo: self.safeAreaLayoutGuide.trailingAnchor , constant: -15).isActive  = true
         whatsNewLabel.heightAnchor.constraint(equalToConstant: 30).isActive = true
         
         
         releasingNotesLabel.topAnchor.constraint(equalTo: whatsNewLabel.bottomAnchor, constant: 10).isActive  = true
-        releasingNotesLabel.leadingAnchor.constraint(equalTo: self.layoutMarginsGuide.leadingAnchor).isActive  = true
-        releasingNotesLabel.trailingAnchor.constraint(equalTo: self.layoutMarginsGuide.trailingAnchor).isActive  = true
+        releasingNotesLabel.leadingAnchor.constraint(equalTo: self.safeAreaLayoutGuide.leadingAnchor, constant: 15).isActive  = true
+        releasingNotesLabel.trailingAnchor.constraint(equalTo: self.safeAreaLayoutGuide.trailingAnchor, constant: -15).isActive  = true
         releasingNotesLabel.bottomAnchor.constraint(equalTo: self.layoutMarginsGuide.bottomAnchor).isActive   = true
         
-        if let lastSubview = contentView.subviews.last {
-            contentView.bottomAnchor.constraint(equalTo: lastSubview.bottomAnchor, constant: 10).isActive = true
-        }
+//        if let lastSubview = contentView.subviews.last {
+//            contentView.bottomAnchor.constraint(equalTo: lastSubview.bottomAnchor, constant: 10).isActive = true
+//        }
     }
     
     override init(frame: CGRect) {

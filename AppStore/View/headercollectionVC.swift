@@ -21,6 +21,7 @@ class headercollectionVC: UICollectionViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        collectionView.contentInset                                    = .init(top: 0, left: 15, bottom: 0, right: 15)
         ConfigureCollectionView()
         getHeaderApps()
     }

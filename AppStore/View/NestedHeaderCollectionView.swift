@@ -27,7 +27,7 @@ class NestedHeaderCollectionView: UICollectionReusableView  {
     fileprivate func setUpConstrains() {
         collectionView.view.topAnchor.constraint(equalTo: self.safeAreaLayoutGuide.topAnchor).isActive = true
         collectionView.view.bottomAnchor.constraint(equalTo: self.safeAreaLayoutGuide.bottomAnchor).isActive = true
-        collectionView.view.leadingAnchor.constraint(equalTo: self.safeAreaLayoutGuide.leadingAnchor, constant: 15).isActive = true
+        collectionView.view.leadingAnchor.constraint(equalTo: self.safeAreaLayoutGuide.leadingAnchor).isActive = true
         collectionView.view.trailingAnchor.constraint(equalTo: self.safeAreaLayoutGuide.trailingAnchor).isActive = true
     }
     

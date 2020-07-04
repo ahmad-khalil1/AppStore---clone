@@ -30,10 +30,11 @@ class customHorizontalCollectionViewCell: UICollectionViewCell {
     let iconImage : UIImageView = {
         let image = UIImageView()
         image.translatesAutoresizingMaskIntoConstraints = false
-        image.layer.cornerRadius = 8
+        image.layer.cornerRadius = 15
         image.contentMode = .scaleAspectFit
-        //image.layer.borderWidth = 0.25
-        //image.layer.borderColor = (srgbRed: 1, green: 2, blue: 2, alpha: 2) as! CGColor
+        image.layer.borderWidth = 0.25
+        image.layer.borderColor = UIColor.systemGray.cgColor
+//            (srgbRed: 1, green: 2, blue: 2, alpha: 2) as! CGColor
         image.clipsToBounds = true
         image.backgroundColor = .black
         //
@@ -42,9 +43,10 @@ class customHorizontalCollectionViewCell: UICollectionViewCell {
     
     let titleLabel : UILabel = {
         let label                                             = UILabel()
-        label.font                                            = UIFont.systemFont(ofSize: 20)
+        label.font                                            = UIFont.systemFont(ofSize: 19)
         label.translatesAutoresizingMaskIntoConstraints       = false
         //label.text                                            = "AppName"
+        label.numberOfLines                                   = 0
         label.textColor                                       = .black
         //label.backgroundColor = .black
         
@@ -53,7 +55,7 @@ class customHorizontalCollectionViewCell: UICollectionViewCell {
     
     let categoryLabel : UILabel = {
         let label                                            = UILabel()
-        label.font                                           = UIFont.systemFont(ofSize: 13)
+        label.font                                           = UIFont.systemFont(ofSize: 13, weight: .light)
         label.translatesAutoresizingMaskIntoConstraints      = false
         label.text                                           = "AppCategory"
         label.textColor                                      = .black
@@ -107,7 +109,7 @@ class customHorizontalCollectionViewCell: UICollectionViewCell {
         horizontalStackView.addArrangedSubview(iconImage)
         horizontalStackView.addArrangedSubview(verticalStackView)
         horizontalStackView.addArrangedSubview(getButton)
-        horizontalStackView.setCustomSpacing(80, after: horizontalStackView.arrangedSubviews[1])
+//        horizontalStackView.setCustomSpacing(80, after: horizontalStackView.arrangedSubviews[1])
 
         addSubview(horizontalStackView)
 

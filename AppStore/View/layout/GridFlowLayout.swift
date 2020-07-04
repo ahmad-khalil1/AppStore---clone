@@ -25,7 +25,7 @@ class GridFlowLayout: UICollectionViewFlowLayout {
 //        print((availabelHeight/3) - 3)
 //        print(availabelWidth)
         
-        self.itemSize = CGSize(width: availabelWidth - 12 , height: (availabelHeight/3) - 3)
+        self.itemSize = CGSize(width: availabelWidth - 20 , height: (availabelHeight/3) - 3)
 
     }
     

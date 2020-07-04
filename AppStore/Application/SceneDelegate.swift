@@ -29,6 +29,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         let navController = UINavigationController(rootViewController: searchNC)
         
         searchNC.title = "Search"
+        navController.navigationBar.backgroundColor = .systemGray6
         searchNC.view.backgroundColor = .systemGray6
         searchNC.tabBarItem = UITabBarItem(tabBarSystemItem: .search, tag: 0)
         
@@ -42,6 +43,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         let navController = UINavigationController(rootViewController: appsVC)
         
         appsVC.title = "Apps"
+        navController.navigationBar.backgroundColor = .systemGray6
         appsVC.view.backgroundColor = .systemGray6
         appsVC.tabBarItem = UITabBarItem(title: "apps", image: UIImage(named: "apps"), tag: 1)
         
