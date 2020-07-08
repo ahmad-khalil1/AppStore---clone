@@ -20,6 +20,8 @@
 		1362C66A249D263E0062F5F9 /* AppSearchEndPiont.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1362C668249D263E0062F5F9 /* AppSearchEndPiont.swift */; };
 		1362C66E249D27010062F5F9 /* AppSearchModals.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1362C66C249D27010062F5F9 /* AppSearchModals.swift */; };
 		1362C66F249D27010062F5F9 /* AppsFeedModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1362C66D249D27010062F5F9 /* AppsFeedModels.swift */; };
+		137ABA8D24B15C6200D4E74F /* AppReviewCVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 137ABA8C24B15C6200D4E74F /* AppReviewCVC.swift */; };
+		13AC608B24B20EE800B79C86 /* appRatingsAndReviewsModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13AC608A24B20EE800B79C86 /* appRatingsAndReviewsModels.swift */; };
 		13C6ADA024AAA0E600BE4727 /* ScreenShootsCVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13C6AD9F24AAA0E600BE4727 /* ScreenShootsCVC.swift */; };
 		722A83CD677CA1ACA7F6D6C6 /* Pods_AppStore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 51BA0D8C77505C5B96A7D421 /* Pods_AppStore.framework */; };
 		E012654623F8AFB90076E228 /* ColumnFlowLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = E012654523F8AFB90076E228 /* ColumnFlowLayout.swift */; };
@@ -57,6 +59,8 @@
 		1362C668249D263E0062F5F9 /* AppSearchEndPiont.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppSearchEndPiont.swift; sourceTree = "<group>"; };
 		1362C66C249D27010062F5F9 /* AppSearchModals.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppSearchModals.swift; sourceTree = "<group>"; };
 		1362C66D249D27010062F5F9 /* AppsFeedModels.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppsFeedModels.swift; sourceTree = "<group>"; };
+		137ABA8C24B15C6200D4E74F /* AppReviewCVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppReviewCVC.swift; sourceTree = "<group>"; };
+		13AC608A24B20EE800B79C86 /* appRatingsAndReviewsModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = appRatingsAndReviewsModels.swift; sourceTree = "<group>"; };
 		13C6AD9F24AAA0E600BE4727 /* ScreenShootsCVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScreenShootsCVC.swift; sourceTree = "<group>"; };
 		51BA0D8C77505C5B96A7D421 /* Pods_AppStore.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_AppStore.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		51C203865558EE9041D775D7 /* Pods-AppStore.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AppStore.debug.xcconfig"; path = "Target Support Files/Pods-AppStore/Pods-AppStore.debug.xcconfig"; sourceTree = "<group>"; };
@@ -66,7 +70,7 @@
 		E05E0F4423F7120D00A6995C /* CustomViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomViewCell.swift; sourceTree = "<group>"; };
 		E09CAC7C240953BB00742DC6 /* headercollectionVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = headercollectionVC.swift; path = AppStore/View/headercollectionVC.swift; sourceTree = SOURCE_ROOT; };
 		E09CAC7E2409626F00742DC6 /* HeaderCustomHorizontalCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeaderCustomHorizontalCollectionViewCell.swift; sourceTree = "<group>"; };
-		E09CAC802409726500742DC6 /* headerFlowLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = headerFlowLayout.swift; path = AppStore/View/headerFlowLayout.swift; sourceTree = SOURCE_ROOT; };
+		E09CAC802409726500742DC6 /* headerFlowLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = headerFlowLayout.swift; path = AppStore/View/layout/Apps/headerFlowLayout.swift; sourceTree = SOURCE_ROOT; };
 		E0A22CFE2407FEC2004FEDF3 /* GridFlowLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GridFlowLayout.swift; sourceTree = "<group>"; };
 		E0A22D06240802D6004FEDF3 /* customHorizontalCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = customHorizontalCollectionViewCell.swift; sourceTree = "<group>"; };
 		E0A22D0A24089220004FEDF3 /* NestedHeaderCollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NestedHeaderCollectionView.swift; sourceTree = "<group>"; };
@@ -161,6 +165,60 @@
 			path = Application;
 			sourceTree = "<group>";
 		};
+		137ABA8524B15AFE00D4E74F /* Apps */ = {
+			isa = PBXGroup;
+			children = (
+				E0A87A5B24073D9200BD3F4A /* appsCustomViewCell.swift */,
+				E0A22D06240802D6004FEDF3 /* customHorizontalCollectionViewCell.swift */,
+				E09CAC7E2409626F00742DC6 /* HeaderCustomHorizontalCollectionViewCell.swift */,
+			);
+			path = Apps;
+			sourceTree = "<group>";
+		};
+		137ABA8624B15B2000D4E74F /* Search */ = {
+			isa = PBXGroup;
+			children = (
+				E05E0F4423F7120D00A6995C /* CustomViewCell.swift */,
+			);
+			path = Search;
+			sourceTree = "<group>";
+		};
+		137ABA8824B15B3700D4E74F /* AppDetail */ = {
+			isa = PBXGroup;
+			children = (
+				1309176E24A38DDC0035C70E /* AppDetailInfoCVC.swift */,
+				13C6AD9F24AAA0E600BE4727 /* ScreenShootsCVC.swift */,
+				137ABA8C24B15C6200D4E74F /* AppReviewCVC.swift */,
+			);
+			path = AppDetail;
+			sourceTree = "<group>";
+		};
+		137ABA8924B15B5100D4E74F /* Search */ = {
+			isa = PBXGroup;
+			children = (
+				E012654523F8AFB90076E228 /* ColumnFlowLayout.swift */,
+			);
+			path = Search;
+			sourceTree = "<group>";
+		};
+		137ABA8A24B15B5B00D4E74F /* Apps */ = {
+			isa = PBXGroup;
+			children = (
+				E0A87A5924073B8100BD3F4A /* AppsColumnFlowLayout.swift */,
+				E0A22CFE2407FEC2004FEDF3 /* GridFlowLayout.swift */,
+				E09CAC802409726500742DC6 /* headerFlowLayout.swift */,
+			);
+			path = Apps;
+			sourceTree = "<group>";
+		};
+		137ABA8B24B15B6500D4E74F /* AppDetail */ = {
+			isa = PBXGroup;
+			children = (
+				1309176C24A3888C0035C70E /* AppDetailFlowLayout.swift */,
+			);
+			path = AppDetail;
+			sourceTree = "<group>";
+		};
 		9657D63C3BF0A532268A5756 /* Pods */ = {
 			isa = PBXGroup;
 			children = (
@@ -175,6 +233,7 @@
 			children = (
 				1362C66C249D27010062F5F9 /* AppSearchModals.swift */,
 				1362C66D249D27010062F5F9 /* AppsFeedModels.swift */,
+				13AC608A24B20EE800B79C86 /* appRatingsAndReviewsModels.swift */,
 				E0A87A57240738E800BD3F4A /* DataModel.swift */,
 				E0A90ACF240A83350038D8B5 /* AppGroub.swift */,
 			);
@@ -206,12 +265,9 @@
 		E0A22D04240801C2004FEDF3 /* CustomCell */ = {
 			isa = PBXGroup;
 			children = (
-				E05E0F4423F7120D00A6995C /* CustomViewCell.swift */,
-				E0A87A5B24073D9200BD3F4A /* appsCustomViewCell.swift */,
-				E0A22D06240802D6004FEDF3 /* customHorizontalCollectionViewCell.swift */,
-				E09CAC7E2409626F00742DC6 /* HeaderCustomHorizontalCollectionViewCell.swift */,
-				1309176E24A38DDC0035C70E /* AppDetailInfoCVC.swift */,
-				13C6AD9F24AAA0E600BE4727 /* ScreenShootsCVC.swift */,
+				137ABA8624B15B2000D4E74F /* Search */,
+				137ABA8524B15AFE00D4E74F /* Apps */,
+				137ABA8824B15B3700D4E74F /* AppDetail */,
 			);
 			path = CustomCell;
 			sourceTree = "<group>";
@@ -219,11 +275,9 @@
 		E0A22D05240801E5004FEDF3 /* layout */ = {
 			isa = PBXGroup;
 			children = (
-				E012654523F8AFB90076E228 /* ColumnFlowLayout.swift */,
-				E0A87A5924073B8100BD3F4A /* AppsColumnFlowLayout.swift */,
-				E0A22CFE2407FEC2004FEDF3 /* GridFlowLayout.swift */,
-				E09CAC802409726500742DC6 /* headerFlowLayout.swift */,
-				1309176C24A3888C0035C70E /* AppDetailFlowLayout.swift */,
+				137ABA8924B15B5100D4E74F /* Search */,
+				137ABA8A24B15B5B00D4E74F /* Apps */,
+				137ABA8B24B15B6500D4E74F /* AppDetail */,
 			);
 			path = layout;
 			sourceTree = "<group>";
@@ -399,9 +453,11 @@
 				E0D03CB823F6067600D755D5 /* AppDelegate.swift in Sources */,
 				1362C66E249D27010062F5F9 /* AppSearchModals.swift in Sources */,
 				1362C669249D263E0062F5F9 /* AppsFeedEndPiont.swift in Sources */,
+				13AC608B24B20EE800B79C86 /* appRatingsAndReviewsModels.swift in Sources */,
 				E0A90AD0240A83350038D8B5 /* AppGroub.swift in Sources */,
 				1362C665249D26320062F5F9 /* HTTPTask.swift in Sources */,
 				13C6ADA024AAA0E600BE4727 /* ScreenShootsCVC.swift in Sources */,
+				137ABA8D24B15C6200D4E74F /* AppReviewCVC.swift in Sources */,
 				E09CAC7D240953BB00742DC6 /* headercollectionVC.swift in Sources */,
 				E0D03CBA23F6067600D755D5 /* SceneDelegate.swift in Sources */,
 				E0A87A5A24073B8100BD3F4A /* AppsColumnFlowLayout.swift in Sources */,

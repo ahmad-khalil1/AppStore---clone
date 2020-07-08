@@ -36,7 +36,7 @@ class ScreenShootsCVC: UICollectionViewCell {
     
     let PreviewTitleLAbel : UILabel = {
         let label = UILabel()
-        label.font                                        = UIFont.boldSystemFont(ofSize: 20)
+        label.font                                        = UIFont.boldSystemFont(ofSize: 22)
         label.text                                        = "Preview "
         label.textColor                                   = .black
 //        label.backgroundColor                             = .lightGray
@@ -70,7 +70,7 @@ class ScreenShootsCVC: UICollectionViewCell {
         collectionView.topAnchor.constraint(equalTo: PreviewTitleLAbel.bottomAnchor).isActive  = true
         collectionView.leadingAnchor.constraint(equalTo: self.safeAreaLayoutGuide.leadingAnchor ).isActive  = true
         collectionView.trailingAnchor.constraint(equalTo: self.safeAreaLayoutGuide.trailingAnchor).isActive  = true
-        collectionView.bottomAnchor.constraint(equalTo: self.layoutMarginsGuide.bottomAnchor).isActive   = true
+        collectionView.bottomAnchor.constraint(equalTo: self.safeAreaLayoutGuide.bottomAnchor).isActive   = true
                 
         
     }
@@ -154,10 +154,10 @@ class ScreenShootsHorizantalCVC: UICollectionViewCell {
     }()
     
     fileprivate func setupUIConstrains(){
-        screenShotImage.topAnchor.constraint(equalTo: self.layoutMarginsGuide.topAnchor).isActive             = true
+        screenShotImage.topAnchor.constraint(equalTo: self.safeAreaLayoutGuide.topAnchor).isActive             = true
         screenShotImage.leadingAnchor.constraint(equalTo: self.safeAreaLayoutGuide.leadingAnchor).isActive    = true
         screenShotImage.trailingAnchor.constraint(equalTo: self.safeAreaLayoutGuide.trailingAnchor).isActive  = true
-        screenShotImage.bottomAnchor.constraint(equalTo: self.layoutMarginsGuide.bottomAnchor).isActive       = true
+        screenShotImage.bottomAnchor.constraint(equalTo: self.safeAreaLayoutGuide.bottomAnchor).isActive       = true
         
 //        screenShotImage.heightAnchor.constraint(equalToConstant: 310).isActive  = true
 //        screenShotImage.widthAnchor.constraint(equalToConstant: 250).isActive  = true

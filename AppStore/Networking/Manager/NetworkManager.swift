@@ -149,6 +149,33 @@ struct NetworkManager {
         }
     }
     
+    func getAppDetailReview (from id : String , completion : @escaping ([AppReviewEntry]? , String?) -> ()){
+        appsFeedRouter.request(.appDetailReview(id: id)) { (data, response, error) in
+            if error != nil {
+                completion( nil , NetworkResponse.badConnection.rawValue )
+            }
+            if let response = response as? HTTPURLResponse {
+                let result = self.handleNetworkResponse(response)
+                switch result {
+                case .success:
+                    guard let responseDate = data else {
+                        completion(nil , NetworkResponse.noData.rawValue)
+                        return
+                    }
+                    do{
+                        let parsedData = try JSONDecoder().decode(AppReviewsFeed.self, from: responseDate)
+                        completion( parsedData.feed.entry , nil )
+                    }catch{
+                        print(error)
+                        completion( nil , NetworkResponse.unableToDecode.rawValue)
+                    }
+                case .failure(let netowrkFailureError ):
+                    completion(nil , netowrkFailureError)
+                }
+            }
+        }
+    }
+    
     fileprivate func handleNetworkResponse(_ response: HTTPURLResponse) -> Result<String>{
         switch response.statusCode {
         case 200...299: return .success
