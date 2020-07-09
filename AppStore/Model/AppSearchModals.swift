@@ -9,6 +9,7 @@
 import Foundation
 
 struct appResult : Codable {
+    var trackId             : Int?
     var trackName           : String?
     var primaryGenreName    : String?
     var averageUserRating   : Double?

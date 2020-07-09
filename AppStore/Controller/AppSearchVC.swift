@@ -119,7 +119,16 @@ extension AppSearchVC : UICollectionViewDataSource , UICollectionViewDelegate  {
                 cell.appImages2.sd_setImage(with: URL(string: screnShotUrlArray[2]), placeholderImage: UIImage(named: "placeholder"))
             }
         }
-    }    
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        if let id = searchAbleItems[indexPath.row].trackId {
+            let appId = String(id)
+            let vC = AppDetailVC(id:appId)
+            self.navigationController?.pushViewController(vC, animated: true)
+        }
+        
+    }
 }
 
 //MARK:- SearchController ResultUpdating Methods.
