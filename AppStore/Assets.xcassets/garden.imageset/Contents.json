@@ -1,6 +1,7 @@
 {
   "images" : [
     {
+      "filename" : "garden.png",
       "idiom" : "universal",
       "scale" : "1x"
     },
@@ -9,7 +10,6 @@
       "scale" : "2x"
     },
     {
-      "filename" : "apps100.png",
       "idiom" : "universal",
       "scale" : "3x"
     }

@@ -52,12 +52,27 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         return navController
     }
     
+    func creatTodayNC() -> UINavigationController {
+        let todayVC = TodayVC(collectionViewLayout: UICollectionViewFlowLayout())
+        let navController = UINavigationController(rootViewController: todayVC)
+        
+        todayVC.title = "Today"
+        navController.navigationBar.isHidden = true
+        navController.navigationBar.backgroundColor = .white
+        todayVC.view.backgroundColor = .systemGray6
+        todayVC.tabBarItem = UITabBarItem(title: "today", image: UIImage(named: "today"), tag: 2)
+        
+//        navController.navigationBar.prefersLargeTitles = true
+        //navController.navigationBar.barTintColor = .systemGray6
+        return navController
+    }
+    
     
     func creatTabBarContoller() -> UITabBarController {
         let tabBAr = UITabBarController()
         UITabBar.appearance().tintColor = .systemRed
         
-        tabBAr.viewControllers = [createAppsNC() , createSearchNC()]
+        tabBAr.viewControllers = [ creatTodayNC() , createAppsNC() , createSearchNC() ]
         
         return tabBAr
     }
