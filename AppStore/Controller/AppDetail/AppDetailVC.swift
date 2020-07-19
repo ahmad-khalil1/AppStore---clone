@@ -11,6 +11,16 @@ import SDWebImage
 
 class AppDetailVC : UIViewController {
     
+    enum cells : Int  {
+        case appDetailInfoCell
+        case screenShootCell
+        case appReviewCell
+        
+        static func count() -> Int {
+            return appReviewCell.rawValue + 1
+        }
+    }
+    
     fileprivate let appDetailInfoCellID                = "appDetailInfoCVCId"
     fileprivate let appReviewCellID                    = "appReviewCVCId"
     
@@ -181,11 +191,15 @@ extension AppDetailVC : UICollectionViewDataSource , UICollectionViewDelegateFlo
 
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 3
+        return cells.count()
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        if indexPath.row == 0 {
+        
+        guard let cells = cells(rawValue: indexPath.row) else  { return UICollectionViewCell()  }
+        
+        switch cells {
+        case .appDetailInfoCell:
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: appDetailInfoCellID, for: indexPath) as! AppDetailInfoCVC
             if let name                               = appDetail.trackName {
                 cell.appTitleLabel.text               = name
@@ -210,7 +224,7 @@ extension AppDetailVC : UICollectionViewDataSource , UICollectionViewDelegateFlo
                 }
             }
             return cell
-        }else if indexPath.row == 1  {
+        case .screenShootCell:
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cellId1", for: indexPath) as! ScreenShootsCVC
             
             //Debuggaging Prints
@@ -218,11 +232,49 @@ extension AppDetailVC : UICollectionViewDataSource , UICollectionViewDelegateFlo
             //            print("\(collectionView.frame)" + "MaincollectionView ")
             cell.app = appDetail
             return cell
-        }else {
+        case .appReviewCell:
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: appReviewCellID, for: indexPath) as! AppReviewCVC
             cell.appReviewArray = self.appReviewsArray
             return cell
         }
+//        if indexPath.row == 0 {
+//            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: appDetailInfoCellID, for: indexPath) as! AppDetailInfoCVC
+//            if let name                               = appDetail.trackName {
+//                cell.appTitleLabel.text               = name
+//                cell.appTitleTextCount                = name.count
+//            }
+//            if let companyName  = appDetail.sellerName {
+//                cell.createdCompanyOfAppLabel.text = companyName
+//            }
+//            if let releaseNotes =  appDetail.releaseNotes {
+//                cell.releasingNotesLabel.text = releaseNotes
+//            }
+//            if let iconImageUrl = appDetail.artworkUrl512 {
+//                cell.iconImage.sd_setImage(with: URL(string: iconImageUrl) , placeholderImage: UIImage(named: "placeholder") )
+//            }
+//
+//            if let price = appDetail.price , let curreny = appDetail.currency{
+//                if price != 0 {
+//                    cell.getButton.setTitle("\(String(price)) $ ", for: .normal)
+//                    cell.hasPrice = true
+//                }else{
+//                    cell.hasPrice = false
+//                }
+//            }
+//            return cell
+//        }else if indexPath.row == 1  {
+//            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cellId1", for: indexPath) as! ScreenShootsCVC
+//
+//            //Debuggaging Prints
+//            //            print (  "\(cell.frame)" + "Main cell"   )
+//            //            print("\(collectionView.frame)" + "MaincollectionView ")
+//            cell.app = appDetail
+//            return cell
+//        }else {
+//            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: appReviewCellID, for: indexPath) as! AppReviewCVC
+//            cell.appReviewArray = self.appReviewsArray
+//            return cell
+//        }
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {

@@ -184,6 +184,7 @@ class ReviewHorizantalCVC : UICollectionViewCell {
         stack.translatesAutoresizingMaskIntoConstraints   = false
         return stack
     }()
+    
     let horizantalStack : UIStackView = {
         let stack                                         = UIStackView()
         stack.axis                                        = .horizontal

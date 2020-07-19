@@ -43,10 +43,10 @@ class customHorizontalCollectionViewCell: UICollectionViewCell {
     
     let titleLabel : UILabel = {
         let label                                             = UILabel()
-        label.font                                            = UIFont.systemFont(ofSize: 19)
+        label.font                                            = UIFont.systemFont(ofSize: 17)
         label.translatesAutoresizingMaskIntoConstraints       = false
-        //label.text                                            = "AppName"
-        label.numberOfLines                                   = 0
+        label.text                                            = "AppName"
+        label.numberOfLines                                   = 2
         label.textColor                                       = .black
         //label.backgroundColor = .black
         
@@ -98,6 +98,13 @@ class customHorizontalCollectionViewCell: UICollectionViewCell {
         return stackView
     }()
     
+    let  seperatorView : UIView = {
+        let view = UIView()
+        view.backgroundColor = UIColor(white: 0.3, alpha: 0.3)
+        view.translatesAutoresizingMaskIntoConstraints = false
+        return view
+    }()
+    
     @objc func getButtonTaped(_ sender : UIButton ) {
         sender.backgroundColor = .orange
     }
@@ -112,6 +119,7 @@ class customHorizontalCollectionViewCell: UICollectionViewCell {
 //        horizontalStackView.setCustomSpacing(80, after: horizontalStackView.arrangedSubviews[1])
 
         addSubview(horizontalStackView)
+        addSubview(seperatorView)
 
     }
     
@@ -128,6 +136,13 @@ class customHorizontalCollectionViewCell: UICollectionViewCell {
         horizontalStackView.leftAnchor.constraint(equalTo: self.leftAnchor).isActive       = true
         horizontalStackView.rightAnchor.constraint(equalTo: self.layoutMarginsGuide.rightAnchor).isActive      = true
         //horizontalStackView.heightAnchor.constraint(equalToConstant: 69).isActive = true
+        
+        seperatorView.leadingAnchor.constraint(equalTo: titleLabel.leadingAnchor ).isActive = true
+        seperatorView.trailingAnchor.constraint(equalTo: self.safeAreaLayoutGuide.trailingAnchor ,constant:  -10 ).isActive = true
+
+        seperatorView.bottomAnchor.constraint(equalTo: self.safeAreaLayoutGuide.bottomAnchor ).isActive = true
+        seperatorView.heightAnchor.constraint(equalToConstant: 0.5 ).isActive = true
+
     }
     
     override init(frame: CGRect) {

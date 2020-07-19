@@ -60,7 +60,7 @@ struct NetworkManager {
     }
     
     func getAppsFeed(with appGroups : [String] , completion : @escaping (_ appsFeedResults : [AppGroup]? ,_ error : String?  )->() ){
-        print(appGroups.count)
+//        print(appGroups.count)
         var appGroupArray = [AppGroup]()
         for (index , appGroupName) in appGroups.enumerated() {
             appsFeedRouter.request(.appsFeed(appGroup: appGroupName)) { (data, response, error ) in
@@ -93,6 +93,64 @@ struct NetworkManager {
             }
         }
     }
+    
+    func getAppsTopGrossingFeed( completion : @escaping (_ appsFeedResults : AppGroup? ,_ error : String?  )->() ){
+        
+        appsFeedRouter.request(.appsFeed(appGroup: "top-grossing"  )) { (data, response, error ) in
+            if error != nil {
+                completion( nil , NetworkResponse.badConnection.rawValue )
+            }
+            if let response = response as? HTTPURLResponse {
+                let result = self.handleNetworkResponse(response)
+                switch result {
+                case .success:
+                    guard let responseDate = data else {
+                        completion(nil , NetworkResponse.noData.rawValue)
+                        return
+                    }
+                    do{
+                        let parsedData = try JSONDecoder().decode(AppsFeed.self, from: responseDate)
+                        completion( parsedData.feed , nil)
+                    }catch{
+                        print(error)
+                        completion( nil , NetworkResponse.unableToDecode.rawValue)
+                    }
+                case .failure(let netowrkFailureError ):
+                    completion(nil , netowrkFailureError)
+                }
+            }
+        }
+    }
+    
+    
+    func getAppsTopPaidFeed( completion : @escaping (_ appsFeedResults : AppGroup? ,_ error : String?  )->() ){
+        
+        appsFeedRouter.request(.appsFeed(appGroup: "top-paid"  )) { (data, response, error ) in
+            if error != nil {
+                completion( nil , NetworkResponse.badConnection.rawValue )
+            }
+            if let response = response as? HTTPURLResponse {
+                let result = self.handleNetworkResponse(response)
+                switch result {
+                case .success:
+                    guard let responseDate = data else {
+                        completion(nil , NetworkResponse.noData.rawValue)
+                        return
+                    }
+                    do{
+                        let parsedData = try JSONDecoder().decode(AppsFeed.self, from: responseDate)
+                        completion( parsedData.feed , nil)
+                    }catch{
+                        print(error)
+                        completion( nil , NetworkResponse.unableToDecode.rawValue)
+                    }
+                case .failure(let netowrkFailureError ):
+                    completion(nil , netowrkFailureError)
+                }
+            }
+        }
+    }
+    
     
     func getAppDetail(with id: String , completion : @escaping (_ : appResult? , _ : String?  )->() ) {
         appsFeedRouter.request(.lookUp(id: id)) { (data, response , error) in

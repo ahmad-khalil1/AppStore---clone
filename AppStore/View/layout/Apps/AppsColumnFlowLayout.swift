@@ -11,7 +11,7 @@ import UIKit
 class AppsColumnFlowLayout: UICollectionViewFlowLayout {
     
     let minColumnWidth = CGFloat(310)
-    var cellHeaight = CGFloat(290)
+    var cellHeaight = CGFloat(320)
     override func prepare() {
         super.prepare()
         
