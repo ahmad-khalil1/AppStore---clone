@@ -20,6 +20,7 @@ class AppsVC: UIViewController {
     let networkManager                               = NetworkManager()
     var appsGroupArray : [AppGroup]?                 = [AppGroup]()
     let didCellectCellNotifcationName                = Notification.Name("didSelectAppCell")
+    let dispatchGroup                                = DispatchGroup()
     
     //MARK:- UI Elements.
 
@@ -35,6 +36,15 @@ class AppsVC: UIViewController {
         return collection
     }()
     
+    let activityIndicator : UIActivityIndicatorView = {
+        let activity = UIActivityIndicatorView(style: UIActivityIndicatorView.Style.large)
+        activity.color = .darkGray
+        activity.startAnimating()
+        activity.hidesWhenStopped = true
+        activity.translatesAutoresizingMaskIntoConstraints = false
+        return activity
+    }()
+    
     //MARK:- Setting up the UI elemnts Position.
 
     func setupCollectionViewCOnstrains(){
@@ -44,8 +54,19 @@ class AppsVC: UIViewController {
         collectionView.rightAnchor.constraint(equalTo: view.safeAreaLayoutGuide.rightAnchor).isActive     = true
         
         collectionView.heightAnchor.constraint(equalTo: view.safeAreaLayoutGuide.heightAnchor).isActive   = true
-        collectionView.widthAnchor.constraint(equalTo: view.safeAreaLayoutGuide.widthAnchor).isActive     = true   
+        collectionView.widthAnchor.constraint(equalTo: view.safeAreaLayoutGuide.widthAnchor).isActive     = true
+        
+        activityIndicator.centerYAnchor.constraint(equalTo: view.safeAreaLayoutGuide.centerYAnchor).isActive = true
+        activityIndicator.centerXAnchor.constraint(equalTo: view.safeAreaLayoutGuide.centerXAnchor).isActive = true
        }
+    
+    fileprivate func ConfigureCollectionView() {
+          collectionView.dataSource = self
+          collectionView.register(appsCustomViewCell.self, forCellWithReuseIdentifier: cellId)
+          collectionView.register(NestedHeaderCollectionView.self
+              , forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: supplemantryId)
+      }
+      
        
     //MARK:- View Life Cycle.
     
@@ -58,39 +79,41 @@ class AppsVC: UIViewController {
         ConfigureCollectionView()
 
         view.addSubview(collectionView)
+        view.addSubview(activityIndicator)
         setupCollectionViewCOnstrains()
         
     }
     
-    @objc fileprivate func handelAppSelection(_ notifcation : Notification){
-        if let appDict = notifcation.userInfo as? [String : App ] {
-            if let app = appDict["app"]{
-                let vC = AppDetailVC(id: app.id!)
-                // vC.view.backgroundColor = .blue
-                //vC.navigationItem.title = app.name
-                self.navigationController?.pushViewController(vC, animated: true)
+    //MARK:- Data Configeration
+
+    fileprivate func getAppsFeed() {
+        dispatchGroup.enter()
+        networkManager.getAppsFeed(with: ["new-apps-we-love" , "new-games-we-love" , "top-free"] ) { (appsGroups, error) in
+            if let appsGroups = appsGroups {
+                self.appsGroupArray = appsGroups
+                self.dispatchGroup.leave()
             }
+        }
+        dispatchGroup.notify(queue:.main) {
+            self.activityIndicator.stopAnimating()
+            self.collectionView.reloadData()
         }
     }
     
-    fileprivate func getAppsFeed() {
-         networkManager.getAppsFeed(with: ["new-apps-we-love" , "new-games-we-love" , "top-free"] ) { (appsGroups, error) in
-             if let appsGroups = appsGroups {
-                 self.appsGroupArray = appsGroups
-                 DispatchQueue.main.async {
-                     self.collectionView.reloadData()
-                 }
-             }
-         }
-     }
+    //MARK:- Handling Events
     
-    fileprivate func ConfigureCollectionView() {
-        collectionView.dataSource = self
-        collectionView.register(appsCustomViewCell.self, forCellWithReuseIdentifier: cellId)
-        collectionView.register(NestedHeaderCollectionView.self
-            , forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: supplemantryId)
-    }
-    
+    @objc fileprivate func handelAppSelection(_ notifcation : Notification){
+           
+           if let appDict = notifcation.userInfo as? [String : App ] {
+               if let app = appDict["app"]{
+                   let vC = AppDetailVC(id: app.id!)
+                   // vC.view.backgroundColor = .blue
+                   //vC.navigationItem.title = app.name
+                   self.navigationController?.pushViewController(vC, animated: true)
+               }
+           }
+       }
+  
 }
 
 //MARK:- collectionView DataSource and Delegate Methods.

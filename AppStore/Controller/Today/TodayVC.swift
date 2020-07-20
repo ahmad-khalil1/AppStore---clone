@@ -8,79 +8,122 @@
 
 import UIKit
 
-private let todayReuseIdentifier = "todayCell"
-private let dailyListReuseIdentifier = "dailyCell"
 
 class TodayVC: UICollectionViewController {
     
-//    let todayItemModal = todayItem()
-    var todayItemsArray = [todayItem]()
-    let networkManager = NetworkManager()
-    var topGrossingAppGroup : AppGroup?
-    var topPaidApps : AppGroup?
-    let dispatchGroup = DispatchGroup()
+    //MARK:- VC Properties and objects.
+
+    private let todayReuseIdentifier                        = "todayCell"
+    private let dailyListReuseIdentifier                    = "dailyCell"
     
+    private var todayItemsArray                             = [todayItem]()
+    private let networkManager                              = NetworkManager()
+    private let dispatchGroup                               = DispatchGroup()
+    private var topGrossingAppGroup                         : AppGroup?
+    private var topPaidApps                                 : AppGroup?
+    
+    //MARK:- CollectionViewDelegate Properties and objects.
+    
+    private var hiddenCells                    : [TodayCVC] = []
+    private var isStatusBarHidden                           = false
+    
+    private var optionalSelectedCell                        : TodayCVC?
+    
+    private var selectedCellStartingFrame                   : CGRect?
+    private var fullScreenlistDetailVc                      : UINavigationController?
+    private var fullScreentDetailVc                         : TodayDetailVC?
+    private var cellType                                    : todayItem.cellType?
+    
+    
+    private var topConstraint                               : NSLayoutConstraint?
+    private var leadingConstraint                           : NSLayoutConstraint?
+    private var heightConstraint                            : NSLayoutConstraint?
+    private var widthConstraint                             : NSLayoutConstraint?
+    
+    private let collectionViewCellHeight                    : CGFloat = 480
+    
+    override var prefersStatusBarHidden: Bool {
+        return isStatusBarHidden
+    }
+    
+    
+    //MARK:- UI Elements.
+
     let activityIndicator : UIActivityIndicatorView = {
-        let activity = UIActivityIndicatorView(style: UIActivityIndicatorView.Style.large)
-        activity.color = .darkGray
+        let activity                                        = UIActivityIndicatorView(style: UIActivityIndicatorView.Style.large)
+        activity.color                                      = .darkGray
+        activity.hidesWhenStopped                           = true
+        activity.translatesAutoresizingMaskIntoConstraints  = false
         activity.startAnimating()
-        activity.hidesWhenStopped = true
         return activity
     }()
+    
+    fileprivate func configerCollectionView() {
+           let collection                                   = collectionView
+           collection?.collectionViewLayout                 = UICollectionViewFlowLayout()
+           collection?.delegate                             = self
+           collection?.backgroundColor                      = .systemGray6
+           self.collectionView!.register(TodayCVC.self, forCellWithReuseIdentifier: todayReuseIdentifier)
+           self.collectionView!.register(DailyListCVC.self, forCellWithReuseIdentifier: dailyListReuseIdentifier)
+       }
+    //MARK:- Setting up the UI elemnts Position.
+    
+    fileprivate func setupConstrains() {
+         activityIndicator.centerYAnchor.constraint(equalTo: view.safeAreaLayoutGuide.centerYAnchor).isActive = true
+         activityIndicator.centerXAnchor.constraint(equalTo: view.safeAreaLayoutGuide.centerXAnchor).isActive = true
+     }
+    
+    //MARK:- Data Configeration
+       
+       fileprivate func setTodayItemsArray() {
+           self.todayItemsArray = [
+               todayItem(itemTitle:"LIFE HACK", itemImage: #imageLiteral(resourceName: "garden"), itemSubtitle: "Utilizing your Time", itemDescription: "All the tools and apps you need to intelligently organize your life the right way.", itemColor: .white, itemCellType: .today )
+               
+               , todayItem(itemTitle: "DAILY LIST", itemSubtitle: self.topGrossingAppGroup?.title ?? "", itemDescription: "", itemColor: .white , itemCellType: .list, itemAppGroup: self.topGrossingAppGroup?.results ?? [] )
+               
+               , todayItem(itemTitle:"HOLIDAYS", itemImage: #imageLiteral(resourceName: "holiday"), itemSubtitle: "Travel on Budget", itemDescription: "find out all you need to know on how to travel without packing everything. ", itemColor: #colorLiteral(red: 0.9872588515, green: 0.9629482627, blue: 0.7360867262, alpha: 1) , itemCellType: .today)
+               
+               , todayItem(itemTitle: "SECOND LIST", itemSubtitle: self.topPaidApps?.title ?? "" , itemDescription: "", itemColor: .white, itemCellType: .list, itemAppGroup: self.topPaidApps?.results ?? [])
+           ]
+       }
+       
+       fileprivate func fetchData(){
+           dispatchGroup.enter()
+           networkManager.getAppsTopGrossingFeed { (appGroup, error ) in
+               self.topGrossingAppGroup = appGroup
+               self.dispatchGroup.leave()
+           }
+           dispatchGroup.enter()
+           networkManager.getAppsTopPaidFeed { (appGroup, error) in
+               self.topPaidApps = appGroup
+               self.dispatchGroup.leave()
+           }
+           dispatchGroup.notify(queue: .main) {
+               self.activityIndicator.stopAnimating()
+               self.setTodayItemsArray()
+               self.collectionView.reloadData()
+           }
+       }
+       
+    //MARK:- View Life Cycle.
     
     override func viewDidLoad() {
         super.viewDidLoad()
        
-        view.addSubview(activityIndicator)
-        activityIndicator.translatesAutoresizingMaskIntoConstraints = false
-        activityIndicator.centerYAnchor.constraint(equalTo: view.safeAreaLayoutGuide.centerYAnchor).isActive = true
-        activityIndicator.centerXAnchor.constraint(equalTo: view.safeAreaLayoutGuide.centerXAnchor).isActive = true
+        addingUIElemntsTotheView()
+        setupConstrains()
 
         fetchData()
         
-        let collection = collectionView
-        collection?.collectionViewLayout = UICollectionViewFlowLayout()
-        collection?.delegate = self
-        collection?.backgroundColor = .systemGray6
-//        collection?.contentInset = .init(top: 20 , left: 0, bottom: 20, right: 0)
-        self.collectionView!.register(TodayCVC.self, forCellWithReuseIdentifier: todayReuseIdentifier)
-        self.collectionView!.register(DailyListCVC.self, forCellWithReuseIdentifier: dailyListReuseIdentifier)
-
-
-        
+        configerCollectionView()
     }
     
-    func fetchData(){
-        dispatchGroup.enter()
-        networkManager.getAppsTopGrossingFeed { (appGroup, error ) in
-            self.topGrossingAppGroup = appGroup
-            self.dispatchGroup.leave()
-        }
-        dispatchGroup.enter()
-        networkManager.getAppsTopPaidFeed { (appGroup, error) in
-            self.topPaidApps = appGroup
-            self.dispatchGroup.leave()
-        }
-        
-        dispatchGroup.notify(queue: .main) {
-            self.activityIndicator.stopAnimating()
-            
-            self.todayItemsArray = [
-                todayItem(itemTitle:"LIFE HACK", itemImage: #imageLiteral(resourceName: "garden"), itemSubtitle: "Utilizing your Time", itemDescription: "All the tools and apps you need to intelligently organize your life the right way.", itemColor: .white, itemCellType: .today )
-                
-                , todayItem(itemTitle: "DAILY LIST", itemSubtitle: self.topGrossingAppGroup?.title ?? "", itemDescription: "", itemColor: .white , itemCellType: .list, itemAppGroup: self.topGrossingAppGroup?.results ?? [] )
-                
-                , todayItem(itemTitle:"HOLIDAYS", itemImage: #imageLiteral(resourceName: "holiday"), itemSubtitle: "Travel on Budget", itemDescription: "find out all you need to know on how to travel without packing everything. ", itemColor: #colorLiteral(red: 0.9872588515, green: 0.9629482627, blue: 0.7360867262, alpha: 1) , itemCellType: .today)
-                
-                , todayItem(itemTitle: "SECOND LIST", itemSubtitle: self.topPaidApps?.title ?? "" , itemDescription: "", itemColor: .white, itemCellType: .list, itemAppGroup: self.topPaidApps?.results ?? [])
-            ]
-            
-                      
-            self.collectionView.reloadData()
-        }
-        
-    }
-    // MARK: UICollectionViewDataSource
+    fileprivate func addingUIElemntsTotheView() {
+          view.addSubview(activityIndicator)
+      }
+    
+    
+    //MARK:- collectionView DataSource and Delegate Methods.
 
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         
@@ -88,16 +131,7 @@ class TodayVC: UICollectionViewController {
     }
 
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-//        if indexPath.row == 2 {
-//            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: dailyListReuseIdentifier , for: indexPath) as! DailyListCVC
-//            return cell
-//        }
-//        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: todayReuseIdentifier, for: indexPath) as! TodayCVC
-//        cell.todayitem = todayItemsArray[indexPath.row]
-//        return cell
-        
         guard let cellType = todayItemsArray[indexPath.row].itemCellType else { return UICollectionViewCell() }
-        
         switch cellType {
         case .list:
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: dailyListReuseIdentifier , for: indexPath) as! DailyListCVC
@@ -111,97 +145,74 @@ class TodayVC: UICollectionViewController {
     }
 
     
-    private var isStatusBarHidden = false
-    private var optionalSelectedCell : TodayCVC?
-    private var hiddenCells: [TodayCVC] = []
-    
-    private var selectedCellStartingFrame: CGRect?
-    private var fullScreenlistDetailVc : TodayAppListVC?
-    private var fullScreentDetailVc : TodayDetailVC?
-    private var cellType : todayItem.cellType?
-    
-    
-    private var topConstraint : NSLayoutConstraint?
-    private var leadingConstraint : NSLayoutConstraint?
-    private var heightConstraint : NSLayoutConstraint?
-    private var widthConstraint : NSLayoutConstraint?
-
-
-
-
 
 }
-// MARK: UICollectionViewDelegate
+
+ //MARK:- collectionView Delegate Methods.
+
 extension TodayVC : UICollectionViewDelegateFlowLayout {
     
-    override var prefersStatusBarHidden: Bool {
-        return isStatusBarHidden
-    }
+   
     override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-
 
         guard let cellType = todayItemsArray[indexPath.row].itemCellType else {return}
         self.cellType = cellType
+        
         switch cellType {
         case .today:
             
             let fullScreenTodayDetailVc = TodayDetailVC()
             
             let fullScreenView = fullScreenTodayDetailVc.view!
+            fullScreenView.translatesAutoresizingMaskIntoConstraints = false
+            fullScreenView.layer.cornerRadius = 16
+            self.fullScreentDetailVc = fullScreenTodayDetailVc
+            
+            fullScreenTodayDetailVc.completion = {
+                self.handelRemoveRedView(gesture: UITapGestureRecognizer())
+            }
+            fullScreenTodayDetailVc.todayItem = todayItemsArray[indexPath.row]
+            
             view.addSubview(fullScreenView)
             addChild(fullScreenTodayDetailVc)
-            self.fullScreentDetailVc = fullScreenTodayDetailVc
+            
             
             guard let selectedCell = collectionView.cellForItem(at: indexPath) else { return }
             guard let selectedCellStartingFrame = selectedCell.superview?.convert(selectedCell.frame, to: nil) else { return }
             let endFrame = view.frame
             
-            
-            
-            fullScreenTodayDetailVc.completion = {
-                self.handelRemoveRedView(gesture: UITapGestureRecognizer())
-            }
-            
-            fullScreenTodayDetailVc.todayItem = todayItemsArray[indexPath.row]
-            
-            fullScreenView.translatesAutoresizingMaskIntoConstraints = false
             topConstraint = fullScreenView.topAnchor.constraint(equalTo: self.view.topAnchor , constant: selectedCellStartingFrame.origin.y)
             leadingConstraint = fullScreenView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor , constant: selectedCellStartingFrame.origin.x )
             heightConstraint = fullScreenView.heightAnchor.constraint(equalToConstant: selectedCellStartingFrame.height)
             widthConstraint = fullScreenView.widthAnchor.constraint(equalToConstant: selectedCellStartingFrame.width  )
             
-            
             [topConstraint,leadingConstraint,heightConstraint,widthConstraint].forEach{ $0?.isActive = true }
             self.view.layoutIfNeeded()
             
             self.selectedCellStartingFrame = selectedCellStartingFrame
-            //        redView.frame = startingFrame
-            fullScreenView.layer.cornerRadius = 16
-            
             
             collectionView.isUserInteractionEnabled = false
             
             UIView.animate(withDuration: 0.7 , delay: 0, usingSpringWithDamping: 0.7, initialSpringVelocity: 0, options: .curveEaseOut, animations: {
                 self.isStatusBarHidden = true
                 self.setNeedsStatusBarAppearanceUpdate()
-                //            fullScreenView.frame = endFrame
-                //            fullScreenView.layer.cornerRadius = 0
                 self.topConstraint?.constant = 0
                 self.leadingConstraint?.constant = 0
                 self.heightConstraint?.constant = endFrame.height
                 self.widthConstraint?.constant = endFrame.width
                 self.view.layoutIfNeeded()
             }, completion: nil)
+            
+            
         case .list:
             
-//            let fullScreenlistDetailVc = TodayAppListVC(collectionViewLayout: UICollectionViewFlowLayout())
-//
-            let fullScreenlistDetailVc =  TodayAppListVC(collectionViewLayout: UICollectionViewFlowLayout())
+            let fullScreenlistDetailNavController =  UINavigationController(rootViewController: TodayAppListVC(collectionViewLayout: UICollectionViewFlowLayout()))
+            let fullScreenlistDetailVC = fullScreenlistDetailNavController.topViewController as! TodayAppListVC
             
-            let fullScreenView = fullScreenlistDetailVc.view!
+            let fullScreenView = fullScreenlistDetailNavController.view!
             view.addSubview(fullScreenView)
-            addChild(fullScreenlistDetailVc)
-            self.fullScreenlistDetailVc = fullScreenlistDetailVc
+            addChild(fullScreenlistDetailNavController)
+            self.fullScreenlistDetailVc = fullScreenlistDetailNavController
             
             guard let selectedCell = collectionView.cellForItem(at: indexPath) else { return }
             guard let selectedCellStartingFrame = selectedCell.superview?.convert(selectedCell.frame, to: nil) else { return }
@@ -209,11 +220,11 @@ extension TodayVC : UICollectionViewDelegateFlowLayout {
             
             
             
-            fullScreenlistDetailVc.completion = {
+            fullScreenlistDetailVC.completion = {
                 self.handelRemoveRedView(gesture: UITapGestureRecognizer())
             }
             
-            fullScreenlistDetailVc.todayItem = todayItemsArray[indexPath.row]
+            fullScreenlistDetailVC.todayItem = todayItemsArray[indexPath.row]
             
             fullScreenView.translatesAutoresizingMaskIntoConstraints = false
             topConstraint = fullScreenView.topAnchor.constraint(equalTo: self.view.topAnchor , constant: selectedCellStartingFrame.origin.y)
@@ -244,14 +255,18 @@ extension TodayVC : UICollectionViewDelegateFlowLayout {
                 self.view.layoutIfNeeded()
             }, completion: nil)
         }
-
-      
-
-
-//        let dailyList = TodayAppListVC(collectionViewLayout: UICollectionViewFlowLayout())
-//        self.navigationController?.pushViewController(dailyList, animated: true)
     }
     
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        return CGSize(width: view.frame.width - 50 , height: collectionViewCellHeight )
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
+        return 20
+    }
+    
+    //MARK:- Handling Events
+
     @objc func handelRemoveRedView(gesture: UITapGestureRecognizer){
         
         if let cellTpe = self.cellType {
@@ -284,18 +299,7 @@ extension TodayVC : UICollectionViewDelegateFlowLayout {
                 return
             }
             self.collectionView.isUserInteractionEnabled = true
-
         })
-    }
-    
-
-    
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return CGSize(width: view.frame.width - 50 , height: 480 )
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
-        return 20
     }
 }
 

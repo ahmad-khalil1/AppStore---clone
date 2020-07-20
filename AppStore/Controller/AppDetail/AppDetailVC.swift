@@ -24,8 +24,8 @@ class AppDetailVC : UIViewController {
     fileprivate let appDetailInfoCellID                = "appDetailInfoCVCId"
     fileprivate let appReviewCellID                    = "appReviewCVCId"
     
-    fileprivate var appDetail             = appResult()
-    fileprivate var appReviewsArray       = [AppReviewEntry]()
+    fileprivate var appDetail             : appResult?
+    fileprivate var appReviewsArray       : [AppReviewEntry]?
     fileprivate let networkManager        = NetworkManager()
     let dispatchGroup                     = DispatchGroup()
     
@@ -49,10 +49,21 @@ class AppDetailVC : UIViewController {
         
         layout.scrollDirection                               = . vertical
         collection.isScrollEnabled                           = true
+        collection.allowsSelection                           = false
         collection.backgroundColor                           = .white
         collection.translatesAutoresizingMaskIntoConstraints = false
         return collection
     }()
+    
+    let activityIndicator : UIActivityIndicatorView = {
+          let activity = UIActivityIndicatorView(style: UIActivityIndicatorView.Style.large)
+          activity.color = .darkGray
+          activity.startAnimating()
+          activity.hidesWhenStopped = true
+          activity.translatesAutoresizingMaskIntoConstraints = false
+          return activity
+      }()
+      
     
     fileprivate func setUpConstrains() {
         collectionView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor).isActive         = true
@@ -63,6 +74,8 @@ class AppDetailVC : UIViewController {
         collectionView.heightAnchor.constraint(equalTo: view.safeAreaLayoutGuide.heightAnchor).isActive   = true
         collectionView.widthAnchor.constraint(equalTo: view.safeAreaLayoutGuide.widthAnchor).isActive     = true
         
+        activityIndicator.centerYAnchor.constraint(equalTo: view.safeAreaLayoutGuide.centerYAnchor).isActive = true
+        activityIndicator.centerXAnchor.constraint(equalTo: view.safeAreaLayoutGuide.centerXAnchor).isActive = true
     }
     
     
@@ -70,6 +83,7 @@ class AppDetailVC : UIViewController {
         super.viewDidLoad()
         view.backgroundColor = .systemGray6
         view.addSubview(collectionView)
+        view.addSubview(activityIndicator)
         setUpConstrains()
         
         collectionView.dataSource = self
@@ -78,28 +92,31 @@ class AppDetailVC : UIViewController {
         collectionView.register(ScreenShootsCVC.self, forCellWithReuseIdentifier: "cellId1")
         collectionView.register(AppReviewCVC.self, forCellWithReuseIdentifier: appReviewCellID)
         
-        
+        fetchAppDetailData()
+    }
+    
+    fileprivate func fetchAppDetailData() {
         dispatchGroup.enter()
         getAppDetail()
         dispatchGroup.enter()
         getAppDetailReviews()
-
+        
         dispatchGroup.notify(queue: .main){
-            DispatchQueue.main.async {
-                self.collectionView.reloadData()
-            }
+            self.activityIndicator.stopAnimating()
+            print("#triggerd")
+            self.collectionView.reloadData()
         }
     }
     
     fileprivate func getAppDetailReviews() {
-          networkManager.getAppDetailReview(from: id) { (appReviews , error) in
-              if let appReviews = appReviews{
-                  self.appReviewsArray = appReviews
-                  self.dispatchGroup.leave()
-              }
-          }
-      }
-      
+        networkManager.getAppDetailReview(from: id) { (appReviews , error) in
+            if let appReviews = appReviews{
+                self.appReviewsArray = appReviews
+                self.dispatchGroup.leave()
+            }
+        }
+    }
+    
     fileprivate func getAppDetail() {
         networkManager.getAppDetail(with: id) { (appDetail, error) in
             if let appDetail = appDetail {
@@ -127,28 +144,31 @@ extension AppDetailVC : UICollectionViewDataSource , UICollectionViewDelegateFlo
             
             let dummyCell = AppDetailInfoCVC(frame: .init(x: 0, y: 0, width: view.frame.width, height: 1000))
             
-            if let name                               = appDetail.trackName {
-                dummyCell.appTitleLabel.text               = name
-                dummyCell.appTitleTextCount                = name.count
-            }
-            if let companyName  = appDetail.sellerName {
-                dummyCell.createdCompanyOfAppLabel.text = companyName
-            }
-            if let releaseNotes =  appDetail.releaseNotes {
-                dummyCell.releasingNotesLabel.text = releaseNotes
-            }
-            if let iconImageUrl = appDetail.artworkUrl512 {
-                dummyCell.iconImage.sd_setImage(with: URL(string: iconImageUrl) , placeholderImage: UIImage(named: "placeholder") )
-            }
-            
-            if let price = appDetail.price , let curreny = appDetail.currency{
-                if price != 0 {
-                    dummyCell.getButton.setTitle("\(String(price)) \(curreny)", for: .normal)
-                    dummyCell.hasPrice = true
-                }else{
-                    dummyCell.hasPrice = false
+            if let appDetail = self.appDetail{
+                if let name                               = appDetail.trackName {
+                    dummyCell.appTitleLabel.text               = name
+                    dummyCell.appTitleTextCount                = name.count
+                }
+                if let companyName  = appDetail.sellerName {
+                    dummyCell.createdCompanyOfAppLabel.text = companyName
+                }
+                if let releaseNotes =  appDetail.releaseNotes {
+                    dummyCell.releasingNotesLabel.text = releaseNotes
+                }
+                if let iconImageUrl = appDetail.artworkUrl512 {
+                    dummyCell.iconImage.sd_setImage(with: URL(string: iconImageUrl) , placeholderImage: UIImage(named: "placeholder") )
+                }
+                
+                if let price = appDetail.price , let curreny = appDetail.currency{
+                    if price != 0 {
+                        dummyCell.getButton.setTitle("\(String(price)) \(curreny)", for: .normal)
+                        dummyCell.hasPrice = true
+                    }else{
+                        dummyCell.hasPrice = false
+                    }
                 }
             }
+           
             
             dummyCell.layoutIfNeeded()
             let estimatedSize = dummyCell.systemLayoutSizeFitting(CGSize(width: view.frame.width, height: 1000))
@@ -163,11 +183,14 @@ extension AppDetailVC : UICollectionViewDataSource , UICollectionViewDelegateFlo
         }else if indexPath.row == 1 {
             let dummyUIImageView = UIImageView()
             var imageSize: CGSize?
-            if let imageURL = self.appDetail.screenshotUrls?.first {
-                dummyUIImageView.sd_setImage(with: URL(string: imageURL)) { (image, e, t, u) in
-                    imageSize = image?.size
+            if let appDetail = self.appDetail{
+                if let imageURL = appDetail.screenshotUrls?.first {
+                    dummyUIImageView.sd_setImage(with: URL(string: imageURL)) { (image, e, t, u) in
+                        imageSize = image?.size
+                    }
                 }
             }
+          
             
             let minColumnWidth = CGFloat(310)
             var cellHeaight : CGFloat
@@ -201,28 +224,31 @@ extension AppDetailVC : UICollectionViewDataSource , UICollectionViewDelegateFlo
         switch cells {
         case .appDetailInfoCell:
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: appDetailInfoCellID, for: indexPath) as! AppDetailInfoCVC
-            if let name                               = appDetail.trackName {
-                cell.appTitleLabel.text               = name
-                cell.appTitleTextCount                = name.count
-            }
-            if let companyName  = appDetail.sellerName {
-                cell.createdCompanyOfAppLabel.text = companyName
-            }
-            if let releaseNotes =  appDetail.releaseNotes {
-                cell.releasingNotesLabel.text = releaseNotes
-            }
-            if let iconImageUrl = appDetail.artworkUrl512 {
-                cell.iconImage.sd_setImage(with: URL(string: iconImageUrl) , placeholderImage: UIImage(named: "placeholder") )
-            }
-            
-            if let price = appDetail.price , let curreny = appDetail.currency{
-                if price != 0 {
-                    cell.getButton.setTitle("\(String(price)) $ ", for: .normal)
-                    cell.hasPrice = true
-                }else{
-                    cell.hasPrice = false
+            if let appDetail = self.appDetail{
+                if let name                               = appDetail.trackName {
+                    cell.appTitleLabel.text               = name
+                    cell.appTitleTextCount                = name.count
+                }
+                if let companyName  = appDetail.sellerName {
+                    cell.createdCompanyOfAppLabel.text = companyName
+                }
+                if let releaseNotes =  appDetail.releaseNotes {
+                    cell.releasingNotesLabel.text = releaseNotes
+                }
+                if let iconImageUrl = appDetail.artworkUrl512 {
+                    cell.iconImage.sd_setImage(with: URL(string: iconImageUrl) , placeholderImage: UIImage(named: "placeholder") )
+                }
+                
+                if let price = appDetail.price , let curreny = appDetail.currency{
+                    if price != 0 {
+                        cell.getButton.setTitle("\(String(price)) $ ", for: .normal)
+                        cell.hasPrice = true
+                    }else{
+                        cell.hasPrice = false
+                    }
                 }
             }
+           
             return cell
         case .screenShootCell:
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cellId1", for: indexPath) as! ScreenShootsCVC
@@ -281,4 +307,7 @@ extension AppDetailVC : UICollectionViewDataSource , UICollectionViewDelegateFlo
              return 0
          }
     
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
+        return UIEdgeInsets(top: 10, left: 0, bottom: 0, right: 0)
+    }
 }

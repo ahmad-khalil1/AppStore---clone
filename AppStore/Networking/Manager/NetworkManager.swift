@@ -79,6 +79,7 @@ struct NetworkManager {
                             let parsedData = try JSONDecoder().decode(AppsFeed.self, from: responseDate)
                             appGroupArray.append(parsedData.feed)
                             if index == appGroups.count - 1{
+                                print(appGroupArray.count)
                                 completion( appGroupArray , nil)
                             }
                             
