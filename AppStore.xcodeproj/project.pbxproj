@@ -24,7 +24,11 @@
 		1362C66E249D27010062F5F9 /* AppSearchModals.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1362C66C249D27010062F5F9 /* AppSearchModals.swift */; };
 		1362C66F249D27010062F5F9 /* AppsFeedModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1362C66D249D27010062F5F9 /* AppsFeedModels.swift */; };
 		136C325F24C323FF006480CA /* TodayAppListVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 136C325E24C323FF006480CA /* TodayAppListVC.swift */; };
+		136C7E0424CEE39F0003A930 /* Extentions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 136C7E0324CEE39F0003A930 /* Extentions.swift */; };
+		1378EFE724CA1DDC00E6EC8B /* UIView+Layout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1378EFE624CA1DDC00E6EC8B /* UIView+Layout.swift */; };
+		1378EFE924CA219500E6EC8B /* AnchoredConstraints.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1378EFE824CA219500E6EC8B /* AnchoredConstraints.swift */; };
 		137ABA8D24B15C6200D4E74F /* AppReviewCVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 137ABA8C24B15C6200D4E74F /* AppReviewCVC.swift */; };
+		1388D5DB24D0B43600C736EE /* VerticalStackView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1388D5DA24D0B43600C736EE /* VerticalStackView.swift */; };
 		13AC608B24B20EE800B79C86 /* appRatingsAndReviewsModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13AC608A24B20EE800B79C86 /* appRatingsAndReviewsModels.swift */; };
 		13C6ADA024AAA0E600BE4727 /* ScreenShootsCVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13C6AD9F24AAA0E600BE4727 /* ScreenShootsCVC.swift */; };
 		13C6EA1E24BB5CCC00AE368C /* ExpandableCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13C6EA1D24BB5CCC00AE368C /* ExpandableCollectionViewCell.swift */; };
@@ -71,7 +75,11 @@
 		1362C66C249D27010062F5F9 /* AppSearchModals.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppSearchModals.swift; sourceTree = "<group>"; };
 		1362C66D249D27010062F5F9 /* AppsFeedModels.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppsFeedModels.swift; sourceTree = "<group>"; };
 		136C325E24C323FF006480CA /* TodayAppListVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodayAppListVC.swift; sourceTree = "<group>"; };
+		136C7E0324CEE39F0003A930 /* Extentions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extentions.swift; sourceTree = "<group>"; };
+		1378EFE624CA1DDC00E6EC8B /* UIView+Layout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+Layout.swift"; sourceTree = "<group>"; };
+		1378EFE824CA219500E6EC8B /* AnchoredConstraints.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnchoredConstraints.swift; sourceTree = "<group>"; };
 		137ABA8C24B15C6200D4E74F /* AppReviewCVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppReviewCVC.swift; sourceTree = "<group>"; };
+		1388D5DA24D0B43600C736EE /* VerticalStackView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VerticalStackView.swift; sourceTree = "<group>"; };
 		13AC608A24B20EE800B79C86 /* appRatingsAndReviewsModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = appRatingsAndReviewsModels.swift; sourceTree = "<group>"; };
 		13C6AD9F24AAA0E600BE4727 /* ScreenShootsCVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScreenShootsCVC.swift; sourceTree = "<group>"; };
 		13C6EA1D24BB5CCC00AE368C /* ExpandableCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpandableCollectionViewCell.swift; sourceTree = "<group>"; };
@@ -227,6 +235,17 @@
 			path = Application;
 			sourceTree = "<group>";
 		};
+		1378EFE524CA1DB800E6EC8B /* Helpers */ = {
+			isa = PBXGroup;
+			children = (
+				1378EFE624CA1DDC00E6EC8B /* UIView+Layout.swift */,
+				1378EFE824CA219500E6EC8B /* AnchoredConstraints.swift */,
+				136C7E0324CEE39F0003A930 /* Extentions.swift */,
+				1388D5DA24D0B43600C736EE /* VerticalStackView.swift */,
+			);
+			path = Helpers;
+			sourceTree = "<group>";
+		};
 		137ABA8524B15AFE00D4E74F /* Apps */ = {
 			isa = PBXGroup;
 			children = (
@@ -367,6 +386,7 @@
 		E0D03CB623F6067600D755D5 /* AppStore */ = {
 			isa = PBXGroup;
 			children = (
+				1378EFE524CA1DB800E6EC8B /* Helpers */,
 				E0D03CC523F6068700D755D5 /* Info.plist */,
 				1362C66B249D268D0062F5F9 /* Application */,
 				E0A22D0024080140004FEDF3 /* Model */,
@@ -501,6 +521,7 @@
 				E05E0F4323F6F40600A6995C /* AppSearchVC.swift in Sources */,
 				E012654623F8AFB90076E228 /* ColumnFlowLayout.swift in Sources */,
 				E05E0F4523F7120E00A6995C /* CustomViewCell.swift in Sources */,
+				136C7E0424CEE39F0003A930 /* Extentions.swift in Sources */,
 				E09CAC7F2409626F00742DC6 /* HeaderCustomHorizontalCollectionViewCell.swift in Sources */,
 				E0A22D0B24089220004FEDF3 /* NestedHeaderCollectionView.swift in Sources */,
 				E0A22D07240802D6004FEDF3 /* customHorizontalCollectionViewCell.swift in Sources */,
@@ -510,6 +531,7 @@
 				1309176F24A38DDC0035C70E /* AppDetailInfoCVC.swift in Sources */,
 				133ABF0824B783EF009C2B68 /* TodayVC.swift in Sources */,
 				1362C666249D26320062F5F9 /* EndPiontType.swift in Sources */,
+				1388D5DB24D0B43600C736EE /* VerticalStackView.swift in Sources */,
 				1309176D24A3888C0035C70E /* AppDetailFlowLayout.swift in Sources */,
 				E0A87A562406F0DC00BD3F4A /* AppsVC.swift in Sources */,
 				E0A87A5C24073D9200BD3F4A /* appsCustomViewCell.swift in Sources */,
@@ -522,8 +544,10 @@
 				E0A87A58240738E800BD3F4A /* DataModel.swift in Sources */,
 				13C6EA1E24BB5CCC00AE368C /* ExpandableCollectionViewCell.swift in Sources */,
 				E0D03CB823F6067600D755D5 /* AppDelegate.swift in Sources */,
+				1378EFE924CA219500E6EC8B /* AnchoredConstraints.swift in Sources */,
 				1362C66E249D27010062F5F9 /* AppSearchModals.swift in Sources */,
 				1362C669249D263E0062F5F9 /* AppsFeedEndPiont.swift in Sources */,
+				1378EFE724CA1DDC00E6EC8B /* UIView+Layout.swift in Sources */,
 				13AC608B24B20EE800B79C86 /* appRatingsAndReviewsModels.swift in Sources */,
 				E0A90AD0240A83350038D8B5 /* AppGroub.swift in Sources */,
 				1362C665249D26320062F5F9 /* HTTPTask.swift in Sources */,

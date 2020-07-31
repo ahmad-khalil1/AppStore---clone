@@ -10,6 +10,20 @@ import UIKit
 
 class HeaderCustomHorizontalCollectionViewCell: UICollectionViewCell {
     
+    var headerApp : headerApp? {
+        didSet{
+            if let name = headerApp?.name {
+                titleLabel.text = name
+            }
+            if let tagline = headerApp?.tagline {
+                appDiscription.text = tagline
+            }
+            if let url = headerApp?.imageUrl {
+                appImage.sd_setImage(with: URL(string: url))
+            }
+        }
+    }
+      
     let verticalStackView : UIStackView = {
         let view = UIStackView()
         view.distribution                                = .fill

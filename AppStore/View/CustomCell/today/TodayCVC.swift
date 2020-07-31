@@ -21,42 +21,21 @@ class TodayCVC: TodayBaseCell {
             }
         }
     }
+
+    let itemCategoryLabel =  UILabel(text: "itemCategoryLabel", font: .boldSystemFont(ofSize: 20))
     
-    let itemCategoryLabel : UILabel =  {
-        let label = UILabel()
-        label.translatesAutoresizingMaskIntoConstraints = false
-        label.font = .boldSystemFont(ofSize: 20)
-        return label
-    }()
+    let itemTitleLabel = UILabel(text: "itemTitleLabel", font: .boldSystemFont(ofSize: 28))
     
-    let itemTitleLabel : UILabel =  {
-        let label = UILabel()
-        label.translatesAutoresizingMaskIntoConstraints = false
-        label.font = .boldSystemFont(ofSize: 28)
-        return label
-    }()
+    let itemDescriptionLabel = UILabel(text: "itemDescriptionLabel", font: .systemFont(ofSize: 16), numberOfLines: 3)
     
-    let itemDescriptionLabel : UILabel =  {
-        let label = UILabel()
-        label.translatesAutoresizingMaskIntoConstraints = false
-        label.font =  .systemFont(ofSize: 16)
-        label.numberOfLines =  3
-        return label
-    }()
-          
     let imageView : UIImageView = {
-        let image = UIImageView()
-        image.translatesAutoresizingMaskIntoConstraints  = false
-//        image.backgroundColor                            = #colorLiteral(red: 0.9872588515, green: 0.9629482627, blue: 0.7360867262, alpha: 1)
-        image.layer.cornerRadius                         = 18
-        image.contentMode                                = .scaleAspectFill
-//        image.clipsToBounds                              = true
+        let image = UIImageView(cornerRadius: 18)
+        image.clipsToBounds = true
         return image
     }()
     
     let containerView : UIView = {
         let view =  UIView()
-
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
@@ -73,10 +52,8 @@ class TodayCVC: TodayBaseCell {
        }()
     
     fileprivate func addingUIElemntsTotheView() {
-//        addSubview(imageView)
-        
+
         containerView.addSubview(imageView)
-        
         
         verticalStack.addArrangedSubview(itemCategoryLabel)
         verticalStack.addArrangedSubview(itemTitleLabel)
@@ -89,27 +66,14 @@ class TodayCVC: TodayBaseCell {
     
     fileprivate func setupUIConstrains() {
         
-//        imageView.topAnchor.constraint(equalTo: self.layoutMarginsGuide.topAnchor , constant: 70 ).isActive  = true
-//        imageView.leadingAnchor.constraint(equalTo: self.safeAreaLayoutGuide.leadingAnchor ).isActive  = true
-//        imageView.trailingAnchor.constraint(equalTo: self.safeAreaLayoutGuide.trailingAnchor).isActive  = true
-////        imageView.bottomAnchor.constraint(equalTo: self.layoutMarginsGuide.bottomAnchor ).isActive   = true
-        
-        imageView.centerYAnchor.constraint(equalTo: containerView.centerYAnchor).isActive = true
-        imageView.centerXAnchor.constraint(equalTo: containerView.centerXAnchor).isActive = true
-        imageView.heightAnchor.constraint(equalToConstant: 240).isActive = true
-        imageView.widthAnchor.constraint(equalToConstant: 240).isActive = true
-        
-        containerView.leadingAnchor.constraint(equalTo: verticalStack.safeAreaLayoutGuide.leadingAnchor ).isActive = true
-        containerView.trailingAnchor.constraint(equalTo: verticalStack.safeAreaLayoutGuide.trailingAnchor ).isActive = true
+        imageView.centerInSuperview()
+        imageView.constrainHeight(constant: 240 )
+        imageView.constrainWidth(constant: 240 )
 
-        verticalStack.topAnchor.constraint(equalTo: self.safeAreaLayoutGuide.topAnchor , constant:  24).isActive = true
-        verticalStack.leadingAnchor.constraint(equalTo: self.safeAreaLayoutGuide.leadingAnchor , constant:  24).isActive = true
-        verticalStack.bottomAnchor.constraint(equalTo: self.safeAreaLayoutGuide.bottomAnchor , constant:  -24).isActive = true
-        verticalStack.trailingAnchor.constraint(equalTo: self.safeAreaLayoutGuide.trailingAnchor , constant:  -24).isActive = true
+        containerView.anchor(top: nil, leading: verticalStack.safeAreaLayoutGuide.leadingAnchor , bottom: nil, trailing: verticalStack.safeAreaLayoutGuide.trailingAnchor )
         
-        
-
-        
+        verticalStack.fillSuperviewWithPadding(padding: .init(top: 24, left: 24, bottom: 24, right: 24))
+           
     }
     
     override init(frame: CGRect) {

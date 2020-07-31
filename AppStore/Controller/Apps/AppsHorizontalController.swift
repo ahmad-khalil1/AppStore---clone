@@ -11,27 +11,13 @@ import SDWebImage
 
 class AppsHorizontalController: UIViewController  {
     
+    //MARK:- VC Properties and objects.
+
     var apps = [App]()
     let cellId                                                     = "cellid"
-//    let appGroup                                                   = AppGroup()
-//    
-//    
-//      init( data:AppGroup?) {
-//        if let dataApps = data?.apps {
-//            apps = dataApps
-//            print("done Init ")
-//        }
-//        super.init(nibName: nil, bundle: nil)
-//    
-//        // Setup Subviews.
-//        //setup()
-//    }
 
-    required init?(coder aDecoder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-    
-    
+    //MARK:- UI Elements.
+
     let collectionView : UICollectionView = {
         
         let layout = GridFlowLayout()
@@ -45,7 +31,14 @@ class AppsHorizontalController: UIViewController  {
         return collection
     }()
     
-    func setupCollectionViewCOnstrains(){
+    //MARK:- Setting up the UI elemnts Position.
+    
+    fileprivate func addingUIElemntsTotheView() {
+    view.addSubview(collectionView)
+
+    }
+
+    func setupCnstrains(){
         collectionView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor ,constant: 12 ).isActive         = true
         collectionView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor ,constant:  -12 ).isActive   = true
         collectionView.leftAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leftAnchor , constant: 15 ).isActive       = true
@@ -56,7 +49,8 @@ class AppsHorizontalController: UIViewController  {
         
     }
     
-    
+    //MARK:- View Life Cycle.
+
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -67,10 +61,9 @@ class AppsHorizontalController: UIViewController  {
         
         collectionView.dataSource = self
         collectionView.register(customHorizontalCollectionViewCell.self, forCellWithReuseIdentifier: cellId)
-        //print(term)
-        view.addSubview(collectionView)
-        setupCollectionViewCOnstrains()
-//        getRequest(term: term)
+        
+        addingUIElemntsTotheView()
+        setupCnstrains()
     }
 
     

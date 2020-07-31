@@ -11,11 +11,11 @@ import UIKit
 class DailyListCVC : TodayBaseCell {
     
     override var todayitem : todayItem? {
-          didSet{
-              if let todayitem = todayitem {
-                  listCategoryLabel.text = todayitem.itemTitle
-                  listTitleLabel.text = todayitem.itemSubtitle
-                  self.contentView.backgroundColor = todayitem.itemColor
+        didSet{
+            if let todayitem = todayitem {
+                listCategoryLabel.text = todayitem.itemTitle
+                listTitleLabel.text = todayitem.itemSubtitle
+                self.contentView.backgroundColor = todayitem.itemColor
                 DispatchQueue.main.async {
                     self.verticalCollectionView.reloadData()
                     
@@ -76,18 +76,12 @@ class DailyListCVC : TodayBaseCell {
     
     fileprivate func setupUIConstrains() {
         
-        verticalCollectionView.leadingAnchor.constraint(equalTo: verticalStack.leadingAnchor).isActive = true
-        verticalCollectionView.trailingAnchor.constraint(equalTo: verticalStack.trailingAnchor).isActive = true
+        verticalCollectionView.anchor(top: nil, leading: verticalStack.leadingAnchor, bottom: nil, trailing: verticalStack.trailingAnchor)
         
+        listCategoryLabel.constrainHeight(constant: 30)
+        verticalCollectionView.constrainHeight(constant: 310)
         
-        listCategoryLabel.heightAnchor.constraint(equalToConstant: 30 ).isActive = true
-        verticalCollectionView.heightAnchor.constraint(equalToConstant: 310 ).isActive = true
-        
-        verticalStack.topAnchor.constraint(equalTo: self.safeAreaLayoutGuide.topAnchor , constant:  24).isActive = true
-        verticalStack.leadingAnchor.constraint(equalTo: self.safeAreaLayoutGuide.leadingAnchor , constant:  24).isActive = true
-        verticalStack.bottomAnchor.constraint(equalTo: self.safeAreaLayoutGuide.bottomAnchor , constant:  -24).isActive = true
-        verticalStack.trailingAnchor.constraint(equalTo: self.safeAreaLayoutGuide.trailingAnchor , constant:  -24).isActive = true
-        
+        verticalStack.fillSuperviewWithPadding(padding: .init(top: 24, left: 24 , bottom: 24, right: 24))
     }
     
     override init(frame: CGRect) {
@@ -103,7 +97,6 @@ class DailyListCVC : TodayBaseCell {
         verticalCollectionView.reloadData()
         
        
-        
         addingUIElemntsTotheView()
         setupUIConstrains()
         
@@ -118,7 +111,12 @@ class DailyListCVC : TodayBaseCell {
 extension DailyListCVC : UICollectionViewDataSource , UICollectionViewDelegateFlowLayout {
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 4
+        if let todayitem = self.todayitem {
+            if let app = todayitem.itemAppGroup {
+                return app.count >= 4 ? 4 : 0
+            }
+        }
+        return 0
     }
     
  

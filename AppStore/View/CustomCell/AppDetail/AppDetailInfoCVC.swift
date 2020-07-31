@@ -32,6 +32,32 @@ class AppDetailInfoCVC: UICollectionViewCell {
         }
     }
     
+    var appDetail : appResult? {
+        didSet{
+            if let name                          = appDetail?.trackName {
+                appTitleLabel.text               = name
+                appTitleTextCount                = name.count
+            }
+            if let companyName  = appDetail?.sellerName {
+                createdCompanyOfAppLabel.text = companyName
+            }
+            if let releaseNotes =  appDetail?.releaseNotes {
+                releasingNotesLabel.text = releaseNotes
+            }
+            if let iconImageUrl = appDetail?.artworkUrl512 {
+                iconImage.sd_setImage(with: URL(string: iconImageUrl) , placeholderImage: UIImage(named: "placeholder") )
+            }
+            if let price = appDetail?.price , let curreny = appDetail?.currency{
+                if price != 0 {
+                    getButton.setTitle("\(String(price)) $ ", for: .normal)
+                    hasPrice = true
+                }else{
+                    hasPrice = false
+                }
+            }
+        }
+    }
+    
 //    lazy var width: NSLayoutConstraint = {
 //        let width = contentView.widthAnchor.constraint(equalToConstant: bounds.size.width)
 //        width.isActive = true

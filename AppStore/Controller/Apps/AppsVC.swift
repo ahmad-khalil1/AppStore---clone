@@ -13,7 +13,7 @@ import UIKit
 class AppsVC: UIViewController {
     
     //MARK:- VC Properties and objects.
-
+    
     var apps                                         = [App]()
     let cellId                                       = "cell"
     let supplemantryId                               = "supp"
@@ -23,7 +23,7 @@ class AppsVC: UIViewController {
     let dispatchGroup                                = DispatchGroup()
     
     //MARK:- UI Elements.
-
+    
     let collectionView : UICollectionView = {
         let layout                                                 = AppsColumnFlowLayout()
         let collection                                             = UICollectionView(frame: CGRect(x: 0, y: 0, width: 0, height: 0), collectionViewLayout: layout)
@@ -46,7 +46,7 @@ class AppsVC: UIViewController {
     }()
     
     //MARK:- Setting up the UI elemnts Position.
-
+    
     func setupCollectionViewCOnstrains(){
         collectionView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor).isActive         = true
         collectionView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor).isActive   = true
@@ -58,16 +58,16 @@ class AppsVC: UIViewController {
         
         activityIndicator.centerYAnchor.constraint(equalTo: view.safeAreaLayoutGuide.centerYAnchor).isActive = true
         activityIndicator.centerXAnchor.constraint(equalTo: view.safeAreaLayoutGuide.centerXAnchor).isActive = true
-       }
+    }
     
     fileprivate func ConfigureCollectionView() {
-          collectionView.dataSource = self
-          collectionView.register(appsCustomViewCell.self, forCellWithReuseIdentifier: cellId)
-          collectionView.register(NestedHeaderCollectionView.self
-              , forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: supplemantryId)
-      }
-      
-       
+        collectionView.dataSource = self
+        collectionView.register(appsCustomViewCell.self, forCellWithReuseIdentifier: cellId)
+        collectionView.register(NestedHeaderCollectionView.self
+            , forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: supplemantryId)
+    }
+    
+    
     //MARK:- View Life Cycle.
     
     override func viewDidLoad() {
@@ -77,7 +77,7 @@ class AppsVC: UIViewController {
         
         getAppsFeed()
         ConfigureCollectionView()
-
+        
         view.addSubview(collectionView)
         view.addSubview(activityIndicator)
         setupCollectionViewCOnstrains()
@@ -85,7 +85,7 @@ class AppsVC: UIViewController {
     }
     
     //MARK:- Data Configeration
-
+    
     fileprivate func getAppsFeed() {
         dispatchGroup.enter()
         networkManager.getAppsFeed(with: ["new-apps-we-love" , "new-games-we-love" , "top-free"] ) { (appsGroups, error) in
@@ -103,17 +103,17 @@ class AppsVC: UIViewController {
     //MARK:- Handling Events
     
     @objc fileprivate func handelAppSelection(_ notifcation : Notification){
-           
-           if let appDict = notifcation.userInfo as? [String : App ] {
-               if let app = appDict["app"]{
-                   let vC = AppDetailVC(id: app.id!)
-                   // vC.view.backgroundColor = .blue
-                   //vC.navigationItem.title = app.name
-                   self.navigationController?.pushViewController(vC, animated: true)
-               }
-           }
-       }
-  
+        
+        if let appDict = notifcation.userInfo as? [String : App ] {
+            if let app = appDict["app"]{
+                let vC = AppDetailVC(id: app.id!)
+                // vC.view.backgroundColor = .blue
+                //vC.navigationItem.title = app.name
+                self.navigationController?.pushViewController(vC, animated: true)
+            }
+        }
+    }
+    
 }
 
 //MARK:- collectionView DataSource and Delegate Methods.

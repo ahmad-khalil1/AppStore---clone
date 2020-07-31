@@ -10,95 +10,91 @@ import UIKit
 
 class TodayDetailVC: UITableViewController {
     
+    //MARK:- VC Properties and objects.
+
+    let headerCellHeight                   : CGFloat  = 480
+
     var completion : (() -> ())?
     var isCloseButtonHidden : Bool? {
         didSet{
             self.tableView.reloadData()
         }
-    }
-    
+    } 
     var todayItem : todayItem? {
         didSet{
             self.tableView.reloadData()
         }
     }
+    
+    //MARK:- UI Elements.
 
-    override func viewDidLoad() {
-        super.viewDidLoad()
+    fileprivate func configureTableView() {
         tableView.separatorStyle = .none
         tableView.backgroundColor = .white
-//        tableView.tableFooterView = UIView()
+        //        tableView.tableFooterView = UIView()
         tableView.contentInset = UIEdgeInsets(top: 0 , left: 0, bottom: 20, right: 0)
         tableView.allowsSelection = false
-        tableView.register(tableCell.self, forCellReuseIdentifier: "cellId")
-
-    }
-
-    // MARK: - Table view data source
-
-    
-
-    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        // #warning Incomplete implementation, return the number of rows
-        return 2
-    }
-
-    
-    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        if indexPath.row == 0 {
-            guard let cellType = todayItem?.itemCellType else { return UITableViewCell()}
-            switch cellType {
-            case .list:
-                let cell =  TodayHeaderCell()
-                cell.todayCell = DailyListCVC()
-                if let todayItem = todayItem {
-                    cell.todayCell!.todayitem = todayItem
-                }
-                cell.closeButton.addTarget(self, action: #selector(handelCloseButtonClicked), for: .touchUpInside)
-                if let isCloseButtonHidden = isCloseButtonHidden {
-                    cell.closeButton.isHidden = isCloseButtonHidden
-                }
-                cell.todayCell!.contentView.layer.cornerRadius = 0
-                return cell
-            case .today:
-                let cell =  TodayHeaderCell()
-                cell.todayCell = TodayCVC()
-                if let todayItem = todayItem {
-                    cell.todayCell!.todayitem = todayItem
-                }
-                cell.closeButton.addTarget(self, action: #selector(handelCloseButtonClicked), for: .touchUpInside)
-                if let isCloseButtonHidden = isCloseButtonHidden {
-                    cell.closeButton.isHidden = isCloseButtonHidden
-                }
-                cell.todayCell!.contentView.layer.cornerRadius = 0
-                return cell
-            }
-            
-        }
-        return  tableCell()
+        tableView.register(TableCell.self, forCellReuseIdentifier: "cellId")
     }
     
+    //MARK:- Handling Events
+
     @objc func handelCloseButtonClicked(button : UIButton , gesture : UITapGestureRecognizer? = nil) {
         if let completion  = completion {
             completion()
         }
-        
-        button.alpha = 0 
+        button.alpha = 0
     }
     
-//    override func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-//        return TodayCVC()
-//    }
-//
-//
-//
-//    override func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-//        return 400
-//    }
-//
+    //MARK:- View Life Cycle.
+
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        configureTableView()
+        
+    }
+    
+    // MARK: - Table view data source
+    
+    
+    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        // #warning Incomplete implementation, return the number of rows
+        return 2
+    }
+    
+    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        if indexPath.row == 0 {
+            guard let cellType = todayItem?.itemCellType else {return UITableViewCell()}
+            guard let todayItem = todayItem  else {  return UITableViewCell()}
+            
+            switch cellType {
+            case .list:
+                return configureTodayDeatailHeaderCell(todayItem,DailyListCVC())
+            case .today:
+                return configureTodayDeatailHeaderCell(todayItem,TodayCVC())
+            }
+        }
+        return  TableCell()
+    }
+    
+    fileprivate func configureTodayDeatailHeaderCell(_ todayItem: todayItem  ,_ baseCell : TodayBaseCell ) -> UITableViewCell {
+        let cell =  TodayHeaderCell()
+        cell.todayCell = baseCell
+        cell.todayCell!.todayitem = todayItem
+        cell.closeButton.addTarget(self, action: #selector(handelCloseButtonClicked), for: .touchUpInside)
+        if let isCloseButtonHidden = self.isCloseButtonHidden {
+            cell.closeButton.isHidden = isCloseButtonHidden
+        }
+        cell.todayCell!.contentView.layer.cornerRadius = 0
+        return cell
+    }
+    
+
+    // MARK: - TableView Delegate
+
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         if indexPath.row == 0 {
-            return 480
+            return headerCellHeight
         }
         return 460
     }
@@ -106,7 +102,9 @@ class TodayDetailVC: UITableViewController {
 
 }
 
-class tableCell : UITableViewCell {
+//MARK:- TableView Regular cell Class
+
+class TableCell : UITableViewCell {
     let descriptionLabel : UILabel = {
         let label = UILabel()
         
@@ -129,15 +127,24 @@ class tableCell : UITableViewCell {
         return label
     }()
     
-    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
-        super.init(style: style, reuseIdentifier: reuseIdentifier)
+    fileprivate func addingUIElemntsTotheView() {
         addSubview(descriptionLabel)
+
+    }
+    
+    fileprivate func setupUIConstrains() {
         
         descriptionLabel.topAnchor.constraint(equalTo: contentView.safeAreaLayoutGuide.topAnchor).isActive             = true
         descriptionLabel.leadingAnchor.constraint(equalTo: contentView.safeAreaLayoutGuide.leadingAnchor , constant: 24  ).isActive    = true
         descriptionLabel.trailingAnchor.constraint(equalTo: contentView.safeAreaLayoutGuide.trailingAnchor , constant: -24 ).isActive  = true
-//        descriptionLabel.bottomAnchor.constraint(equalTo: self.safeAreaLayoutGuide.bottomAnchor).isActive       = true
-            
+        //        descriptionLabel.bottomAnchor.constraint(equalTo: self.safeAreaLayoutGuide.bottomAnchor).isActive       = true
+        
+    }
+    
+    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
+        super.init(style: style, reuseIdentifier: reuseIdentifier)
+        addingUIElemntsTotheView()
+        setupUIConstrains()
     }
     
     required init?(coder: NSCoder) {
@@ -145,9 +152,11 @@ class tableCell : UITableViewCell {
     }
 }
 
+//MARK:- TableView Header cell Class
+
+
 class TodayHeaderCell : UITableViewCell {
     
-//    let todayCell = TodayCVC()
     var todayCell : TodayBaseCell? {
         didSet{
             addingUIElemntsTotheView()
@@ -200,3 +209,15 @@ class TodayHeaderCell : UITableViewCell {
            fatalError("init(coder:) has not been implemented")
        }
 }
+
+
+    //    override func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+    //        return TodayCVC()
+    //    }
+//
+//
+//
+//    override func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+//        return 400
+//    }
+//

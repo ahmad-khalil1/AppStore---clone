@@ -152,12 +152,6 @@ class CustomViewCell: UICollectionViewCell {
         
         NSLayoutConstraint.activate([
             
-            containerView.leftAnchor.constraint(equalTo: self.layoutMarginsGuide.leftAnchor),
-            containerView.topAnchor.constraint(equalTo: self.layoutMarginsGuide.topAnchor , constant: 10),
-            containerView.rightAnchor.constraint(equalTo: self.layoutMarginsGuide.rightAnchor  ),
-            containerView.heightAnchor.constraint(equalToConstant: 59),
-           // containerView.widthAnchor.constraint(equalTo: self.layoutMarginsGuide.widthAnchor, multiplier: 1, constant: -10),
-            
             
             iconImage.leftAnchor.constraint(equalTo: containerView.leftAnchor),
             iconImage.topAnchor.constraint(equalTo:containerView.topAnchor),
@@ -199,14 +193,10 @@ class CustomViewCell: UICollectionViewCell {
 //            appImages2.leftAnchor.constraint(equalTo: appImages1.rightAnchor , constant: 5),
 //            appImages2.widthAnchor.constraint(equalTo: self.layoutMarginsGuide.widthAnchor, multiplier: 0.3, constant: -10),
 //            appImages2.heightAnchor.constraint(equalToConstant: 214),
-
-
-            
-            
-            
-            
+     
         ])
-        
+        containerView.anchor(top: self.layoutMarginsGuide.topAnchor, leading: self.layoutMarginsGuide.leadingAnchor, bottom: nil, trailing:  self.layoutMarginsGuide.trailingAnchor, padding: .init(top: 10, left: 0, bottom: 0, right: 0), size: .init(width: 0, height: 59))
+         
     }
     
     

@@ -105,10 +105,10 @@ extension TodayAppListVC {
     override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         if let id = self.todayItem?.itemAppGroup?[indexPath.row].id{
             let appVC = AppDetailVC(id: id)
-//            self.present(appVC, animated: true )
-//            appVC.navigationController?.isNavigationBarHidden = false
-//            appVC.navigationController?.navigationBar.backgroundColor = .none
-//            appVC.navigationController?.navigationBar.shadowImage = UIImage()
+            //            self.present(appVC, animated: true )
+            //            appVC.navigationController?.isNavigationBarHidden = false
+            //            appVC.navigationController?.navigationBar.backgroundColor = .none
+            //            appVC.navigationController?.navigationBar.shadowImage = UIImage()
             let swipGestureRecognizer : UISwipeGestureRecognizer = {
                 let gesture = UISwipeGestureRecognizer(target: self, action: #selector(handleSwipGesture))
                 gesture.direction = .right
@@ -117,8 +117,6 @@ extension TodayAppListVC {
             appVC.view.addGestureRecognizer(swipGestureRecognizer)
             appVC.view.isUserInteractionEnabled = true
             self.navigationController?.pushViewController(appVC, animated: true)
-
-
         }
     }
 }
