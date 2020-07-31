@@ -10,11 +10,10 @@ import UIKit
 
 private let reuseIdentifier = "Cell"
 
-class TodayAppListVC: UICollectionViewController , UICollectionViewDelegateFlowLayout{
+class TodayAppListVC : TodayFullScreenBaseVC {
     
-    var completion : (() -> ())?
 
-    var isCloseButtonHidden : Bool? {
+    override var isCloseButtonHidden : Bool? {
         didSet{
             DispatchQueue.main.async {
                 self.collectionView.reloadData()
@@ -23,7 +22,7 @@ class TodayAppListVC: UICollectionViewController , UICollectionViewDelegateFlowL
         }
     }
     
-    var todayItem : todayItem? {
+    override var todayItem : todayItem? {
         didSet{
             DispatchQueue.main.async {
                 self.collectionView.reloadData()
@@ -79,14 +78,7 @@ class TodayAppListVC: UICollectionViewController , UICollectionViewDelegateFlowL
         return view
     }
     
-    @objc func handelCloseButtonClicked(button : UIButton , gesture : UITapGestureRecognizer? = nil) {
-           if let completion  = completion {
-               completion()
-           }
-           
-           button.alpha = 0
-       }
-    
+   
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         return CGSize(width: collectionView.frame.width - 30 , height:  65 )
     }

@@ -12,7 +12,7 @@ import UIKit
 class TodayVC: UICollectionViewController {
     
     //MARK:- VC Properties and objects.
-
+    
     private let todayReuseIdentifier                        = "todayCell"
     private let dailyListReuseIdentifier                    = "dailyCell"
     
@@ -30,8 +30,7 @@ class TodayVC: UICollectionViewController {
     private var optionalSelectedCell                        : TodayCVC?
     
     private var selectedCellStartingFrame                   : CGRect?
-    private var fullScreenlistDetailVc                      : UINavigationController?
-    private var fullScreentDetailVc                         : TodayDetailVC?
+    private var fullScreenNAVController                     : UINavigationController?
     private var cellType                                    : todayItem.cellType?
     
     private var anchoredConstrain                           = AnchoredConstraints()
@@ -152,7 +151,56 @@ class TodayVC: UICollectionViewController {
 
 extension TodayVC : UICollectionViewDelegateFlowLayout {
     
-   
+    
+    private func showFullScreenView(_ indexPath : IndexPath , ViewController : TodayFullScreenBaseVC ) -> UIView{
+        let fullScreenNC = UINavigationController(rootViewController: ViewController)
+        let fullScreenVC = fullScreenNC.topViewController as! TodayFullScreenBaseVC
+        let fullScreenView = fullScreenNC.view!
+        fullScreenView.translatesAutoresizingMaskIntoConstraints = false
+        fullScreenView.layer.cornerRadius = 16
+        self.fullScreenNAVController = fullScreenNC
+        
+        fullScreenVC.completion = {
+            self.handelRemoveRedView(gesture: UITapGestureRecognizer())
+        }
+        fullScreenVC.todayItem = todayItemsArray[indexPath.row]
+        
+        view.addSubview(fullScreenView)
+        addChild(fullScreenNC)
+        return fullScreenView
+    }
+    
+    private func ConstrainFullScreenView( _ indexPath : IndexPath , fullScreenView : UIView){
+        guard let selectedCell = collectionView.cellForItem(at: indexPath) else { return }
+        guard let selectedCellStartingFrame = selectedCell.superview?.convert(selectedCell.frame, to: nil) else { return }
+        
+        self.anchoredConstrain.top = fullScreenView.topAnchor.constraint(equalTo: self.view.topAnchor , constant: selectedCellStartingFrame.origin.y)
+        self.anchoredConstrain.leading = fullScreenView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor , constant: selectedCellStartingFrame.origin.x )
+        self.anchoredConstrain.height = fullScreenView.heightAnchor.constraint(equalToConstant: selectedCellStartingFrame.height)
+        self.anchoredConstrain.width = fullScreenView.widthAnchor.constraint(equalToConstant: selectedCellStartingFrame.width  )
+        
+        
+        [anchoredConstrain.top,anchoredConstrain.leading,anchoredConstrain.height,
+         anchoredConstrain.width].forEach{ $0?.isActive = true }
+        self.view.layoutIfNeeded()
+        
+        self.selectedCellStartingFrame = selectedCellStartingFrame
+        
+        collectionView.isUserInteractionEnabled = false
+    }
+    
+    fileprivate func animateFullScreenView(_ endFrame: CGRect) {
+        UIView.animate(withDuration: 0.7 , delay: 0, usingSpringWithDamping: 0.7, initialSpringVelocity: 0, options: .curveEaseOut, animations: {
+            self.isStatusBarHidden = true
+            self.setNeedsStatusBarAppearanceUpdate()
+            self.anchoredConstrain.top?.constant = 0
+            self.anchoredConstrain.leading?.constant = 0
+            self.anchoredConstrain.height?.constant = endFrame.height
+            self.anchoredConstrain.width?.constant = endFrame.width
+            self.view.layoutIfNeeded()
+        }, completion: nil)
+    }
+    
     override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         
         guard let cellType = todayItemsArray[indexPath.row].itemCellType else {return}
@@ -160,119 +208,15 @@ extension TodayVC : UICollectionViewDelegateFlowLayout {
         
         switch cellType {
         case .today:
-            
-            let fullScreenTodayDetailVc = TodayDetailVC()
-            
-            let fullScreenView = fullScreenTodayDetailVc.view!
-            fullScreenView.translatesAutoresizingMaskIntoConstraints = false
-            fullScreenView.layer.cornerRadius = 16
-            self.fullScreentDetailVc = fullScreenTodayDetailVc
-            
-            fullScreenTodayDetailVc.completion = {
-                self.handelRemoveRedView(gesture: UITapGestureRecognizer())
-            }
-            fullScreenTodayDetailVc.todayItem = todayItemsArray[indexPath.row]
-            
-            view.addSubview(fullScreenView)
-            addChild(fullScreenTodayDetailVc)
-            
-            
-            guard let selectedCell = collectionView.cellForItem(at: indexPath) else { return }
-//            print("\(selectedCell.frame) + selectedCell.frame \n")
-//            print("\(selectedCell.bounds) + selectedCell.bounds \n ")
-            guard let selectedCellStartingFrame = selectedCell.superview?.convert(selectedCell.frame, to: nil) else { return }
-
-//            print("\(selectedCellStartingFrame) + selectedCellStartingFrame \n")
-//            print("\(selectedCellStartingBounds) + selectedCellStartingBounds \n")
-
+            let fullScreenView = showFullScreenView(indexPath, ViewController:  TodayDetailVC())
+            ConstrainFullScreenView(indexPath, fullScreenView: fullScreenView)
             let endFrame = view.frame
-            
-            self.anchoredConstrain.top = fullScreenView.topAnchor.constraint(equalTo: self.view.topAnchor , constant: selectedCellStartingFrame.origin.y)
-            self.anchoredConstrain.leading = fullScreenView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor , constant: selectedCellStartingFrame.origin.x )
-            self.anchoredConstrain.height = fullScreenView.heightAnchor.constraint(equalToConstant: selectedCellStartingFrame.height)
-            self.anchoredConstrain.width = fullScreenView.widthAnchor.constraint(equalToConstant: selectedCellStartingFrame.width  )
-            
-//            print("\(fullScreenView.frame) + fullScreenView.frame" )
-//            print("\(fullScreenView.superview?.convert(fullScreenView.frame, to: nil)) + fullScreenView.frame \n" )
-//            print("\(fullScreenView.bounds) + fullScreenView.bounds \n" )
-
-            
-            [anchoredConstrain.top,anchoredConstrain.leading,anchoredConstrain.height,
-             anchoredConstrain.width].forEach{ $0?.isActive = true }
-            self.view.layoutIfNeeded()
-            
-            self.selectedCellStartingFrame = selectedCellStartingFrame
-            
-            collectionView.isUserInteractionEnabled = false
-            
-            UIView.animate(withDuration: 0.7 , delay: 0, usingSpringWithDamping: 0.7, initialSpringVelocity: 0, options: .curveEaseOut, animations: {
-                self.isStatusBarHidden = true
-                self.setNeedsStatusBarAppearanceUpdate()
-                self.anchoredConstrain.top?.constant = 0
-                self.anchoredConstrain.leading?.constant = 0
-                self.anchoredConstrain.height?.constant = endFrame.height
-                self.anchoredConstrain.width?.constant = endFrame.width
-                self.view.layoutIfNeeded()
-            }, completion: nil)
-            
-            
+            animateFullScreenView(endFrame)
         case .list:
-            
-            let fullScreenlistDetailNavController =  UINavigationController(rootViewController: TodayAppListVC(collectionViewLayout: UICollectionViewFlowLayout()))
-            let fullScreenlistDetailVC = fullScreenlistDetailNavController.topViewController as! TodayAppListVC
-            
-            let fullScreenView = fullScreenlistDetailNavController.view!
-            view.addSubview(fullScreenView)
-            addChild(fullScreenlistDetailNavController)
-            self.fullScreenlistDetailVc = fullScreenlistDetailNavController
-            
-            guard let selectedCell = collectionView.cellForItem(at: indexPath) else { return }
-//            print("\(selectedCell.frame) + selectedCell.frame \n")
-
-            guard let selectedCellStartingFrame = selectedCell.superview?.convert(selectedCell.frame, to: nil) else { return }
-//            print("\(selectedCellStartingFrame) + selectedCellStartingFrame \n")
-
+            let fullScreenView = showFullScreenView(indexPath, ViewController:  TodayAppListVC())
+            ConstrainFullScreenView(indexPath, fullScreenView: fullScreenView)
             let endFrame = view.frame
-            
-            
-            
-            fullScreenlistDetailVC.completion = {
-                self.handelRemoveRedView(gesture: UITapGestureRecognizer())
-            }
-            
-            fullScreenlistDetailVC.todayItem = todayItemsArray[indexPath.row]
-            
-            fullScreenView.translatesAutoresizingMaskIntoConstraints = false
-            self.anchoredConstrain.top = fullScreenView.topAnchor.constraint(equalTo: self.view.topAnchor , constant: selectedCellStartingFrame.origin.y)
-            self.anchoredConstrain.leading = fullScreenView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor , constant: selectedCellStartingFrame.origin.x )
-            self.anchoredConstrain.height = fullScreenView.heightAnchor.constraint(equalToConstant: selectedCellStartingFrame.height)
-            self.anchoredConstrain.width = fullScreenView.widthAnchor.constraint(equalToConstant: selectedCellStartingFrame.width  )
-//            print("\(fullScreenView.frame) + fullScreenView.frame" )
-//            print("\(fullScreenView.superview?.convert(fullScreenView.frame, to: nil)) + fullScreenView.frame \n" )
-//
-            
-            [self.anchoredConstrain.top,self.anchoredConstrain.leading,self.anchoredConstrain.height,
-             self.anchoredConstrain.width].forEach{ $0?.isActive = true }
-            self.view.layoutIfNeeded()
-            
-            self.selectedCellStartingFrame = selectedCellStartingFrame
-            //        redView.frame = startingFrame
-            fullScreenView.layer.cornerRadius = 16
-            
-            
-            collectionView.isUserInteractionEnabled = false
-            
-            UIView.animate(withDuration: 0.7 , delay: 0, usingSpringWithDamping: 0.7, initialSpringVelocity: 0, options: .curveEaseOut, animations: {
-                self.isStatusBarHidden = true
-                self.setNeedsStatusBarAppearanceUpdate()
-                //            fullScreenView.frame = endFrame
-                //            fullScreenView.layer.cornerRadius = 0
-                self.anchoredConstrain.top?.constant = 0
-                self.anchoredConstrain.leading?.constant = 0
-                self.anchoredConstrain.height?.constant = endFrame.height
-                self.anchoredConstrain.width?.constant = endFrame.width
-                self.view.layoutIfNeeded()
-            }, completion: nil)
+            animateFullScreenView(endFrame)
         }
     }
     
@@ -290,8 +234,8 @@ extension TodayVC : UICollectionViewDelegateFlowLayout {
         
         if let cellTpe = self.cellType {
             if cellTpe == .today {
-                guard let fullScreenTodayDetailVc = self.fullScreentDetailVc else {fatalError("fullScreenVc was't captured")}
-                fullScreenTodayDetailVc.tableView.contentOffset = .zero
+                guard let fullScreenTodayDetailVc = self.fullScreenNAVController else {fatalError("fullScreenVc was't captured")}
+                (fullScreenTodayDetailVc.topViewController as! TodayFullScreenBaseVC).collectionView.contentOffset = .zero
                 self.view.layoutIfNeeded()
             }
         }
@@ -301,47 +245,86 @@ extension TodayVC : UICollectionViewDelegateFlowLayout {
             
             self.anchoredConstrain.top?.constant = selectedCellStartingFrame.origin.y
             self.anchoredConstrain.leading?.constant = selectedCellStartingFrame.origin.x
-             self.anchoredConstrain.height?.constant = selectedCellStartingFrame.height
+            self.anchoredConstrain.height?.constant = selectedCellStartingFrame.height
             self.anchoredConstrain.width?.constant = selectedCellStartingFrame.width
             
             self.view.layoutIfNeeded()
             self.setNeedsStatusBarAppearanceUpdate()
         }, completion: { _ in
-            switch self.cellType {
-            case .today:
-                self.fullScreentDetailVc?.view.removeFromSuperview()
-                self.fullScreentDetailVc?.removeFromParent()
-            case .list:
-                self.fullScreenlistDetailVc?.view.removeFromSuperview()
-                self.fullScreenlistDetailVc?.removeFromParent()
-            case .none:
-                return
-            }
+            self.fullScreenNAVController?.view.removeFromSuperview()
+            self.fullScreenNAVController?.removeFromParent()
             self.collectionView.isUserInteractionEnabled = true
         })
     }
 }
 
 //
-//private func showFullScreenView(indexPath : IndexPath , ViewController : UIViewController ) {
+
+
+//            print("\(selectedCell.frame) + selectedCell.frame \n")
+//            print("\(selectedCell.bounds) + selectedCell.bounds \n ")
+
+//            print("\(selectedCellStartingFrame) + selectedCellStartingFrame \n")
+//            print("\(selectedCellStartingBounds) + selectedCellStartingBounds \n")
+
+//            print("\(fullScreenView.frame) + fullScreenView.frame" )
+//            print("\(fullScreenView.superview?.convert(fullScreenView.frame, to: nil)) + fullScreenView.frame \n" )
+//            print("\(fullScreenView.bounds) + fullScreenView.bounds \n" )
+
 //
-//    if let fullScreenlVc = ViewController as? TodayAppListVC {
-//        let fullScreenTodayDetailVc = TodayAppListVC()
 //
-//    } else {
-//        let fullScreenTodayDetailVc = TodayDetailVC()
-//    }
+// let fullScreenlistDetailNavController =  UINavigationController(rootViewController: TodayAppListVC())
+//            let fullScreenlistDetailVC = fullScreenlistDetailNavController.topViewController as! TodayAppListVC
 //
-//    let fullScreenView = fullScreenTodayDetailVc.view!
-//    fullScreenView.translatesAutoresizingMaskIntoConstraints = false
-//    fullScreenView.layer.cornerRadius = 16
-//    self.fullScreentDetailVc = fullScreenTodayDetailVc
+//            let fullScreenView = fullScreenlistDetailNavController.view!
+//            view.addSubview(fullScreenView)
+//            addChild(fullScreenlistDetailNavController)
+//            self.fullScreenlistDetailVc = fullScreenlistDetailNavController
 //
-//    fullScreenTodayDetailVc.completion = {
-//        self.handelRemoveRedView(gesture: UITapGestureRecognizer())
-//    }
-//    fullScreenTodayDetailVc.todayItem = todayItemsArray[indexPath.row]
+//            guard let selectedCell = collectionView.cellForItem(at: indexPath) else { return }
+////            print("\(selectedCell.frame) + selectedCell.frame \n")
 //
-//    view.addSubview(fullScreenView)
-//    addChild(fullScreenTodayDetailVc)
-//}
+//            guard let selectedCellStartingFrame = selectedCell.superview?.convert(selectedCell.frame, to: nil) else { return }
+////            print("\(selectedCellStartingFrame) + selectedCellStartingFrame \n")
+//
+//            let endFrame = view.frame
+//
+//
+//
+//            fullScreenlistDetailVC.completion = {
+//                self.handelRemoveRedView(gesture: UITapGestureRecognizer())
+//            }
+//
+//            fullScreenlistDetailVC.todayItem = todayItemsArray[indexPath.row]
+//
+//            fullScreenView.translatesAutoresizingMaskIntoConstraints = false
+//            self.anchoredConstrain.top = fullScreenView.topAnchor.constraint(equalTo: self.view.topAnchor , constant: selectedCellStartingFrame.origin.y)
+//            self.anchoredConstrain.leading = fullScreenView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor , constant: selectedCellStartingFrame.origin.x )
+//            self.anchoredConstrain.height = fullScreenView.heightAnchor.constraint(equalToConstant: selectedCellStartingFrame.height)
+//            self.anchoredConstrain.width = fullScreenView.widthAnchor.constraint(equalToConstant: selectedCellStartingFrame.width  )
+////            print("\(fullScreenView.frame) + fullScreenView.frame" )
+////            print("\(fullScreenView.superview?.convert(fullScreenView.frame, to: nil)) + fullScreenView.frame \n" )
+////
+//
+//            [self.anchoredConstrain.top,self.anchoredConstrain.leading,self.anchoredConstrain.height,
+//             self.anchoredConstrain.width].forEach{ $0?.isActive = true }
+//            self.view.layoutIfNeeded()
+//
+//            self.selectedCellStartingFrame = selectedCellStartingFrame
+//            //        redView.frame = startingFrame
+//            fullScreenView.layer.cornerRadius = 16
+//
+//
+//            collectionView.isUserInteractionEnabled = false
+//
+//            UIView.animate(withDuration: 0.7 , delay: 0, usingSpringWithDamping: 0.7, initialSpringVelocity: 0, options: .curveEaseOut, animations: {
+//                self.isStatusBarHidden = true
+//                self.setNeedsStatusBarAppearanceUpdate()
+//                //            fullScreenView.frame = endFrame
+//                //            fullScreenView.layer.cornerRadius = 0
+//                self.anchoredConstrain.top?.constant = 0
+//                self.anchoredConstrain.leading?.constant = 0
+//                self.anchoredConstrain.height?.constant = endFrame.height
+//                self.anchoredConstrain.width?.constant = endFrame.width
+//                self.view.layoutIfNeeded()
+//            }, completion: nil)

@@ -8,103 +8,103 @@
 
 import UIKit
 
-class TodayDetailVC: UITableViewController {
+class TodayDetailVC : TodayFullScreenBaseVC {
     
     //MARK:- VC Properties and objects.
 
     let headerCellHeight                   : CGFloat  = 480
 
-    var completion : (() -> ())?
-    var isCloseButtonHidden : Bool? {
+    override var isCloseButtonHidden : Bool? {
         didSet{
-            self.tableView.reloadData()
+            self.collectionView.reloadData()
         }
     } 
-    var todayItem : todayItem? {
+    override var todayItem : todayItem? {
         didSet{
-            self.tableView.reloadData()
+            self.collectionView.reloadData()
         }
     }
     
     //MARK:- UI Elements.
 
     fileprivate func configureTableView() {
-        tableView.separatorStyle = .none
-        tableView.backgroundColor = .white
+//        tableView.separatorStyle = .none
+        collectionView.backgroundColor = .white
         //        tableView.tableFooterView = UIView()
-        tableView.contentInset = UIEdgeInsets(top: 0 , left: 0, bottom: 20, right: 0)
-        tableView.allowsSelection = false
-        tableView.register(TableCell.self, forCellReuseIdentifier: "cellId")
-    }
-    
-    //MARK:- Handling Events
+        collectionView.contentInset = UIEdgeInsets(top: 0 , left: 0, bottom: 20, right: 0)
+        collectionView.allowsSelection = false
+        collectionView.register(TableCell.self, forCellWithReuseIdentifier: "cellId2")
+//        collectionView.register(TodayHeaderCell.self, forCellWithReuseIdentifier: "cellId1")
+        self.collectionView.register(TodayHeaderCell.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: "header")
 
-    @objc func handelCloseButtonClicked(button : UIButton , gesture : UITapGestureRecognizer? = nil) {
-        if let completion  = completion {
-            completion()
-        }
-        button.alpha = 0
     }
-    
+
     //MARK:- View Life Cycle.
 
     override func viewDidLoad() {
         super.viewDidLoad()
         configureTableView()
-        
+        self.navigationController?.navigationBar.isHidden = true
     }
     
     // MARK: - Table view data source
     
     
-    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        // #warning Incomplete implementation, return the number of rows
-        return 2
+    override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return 1
     }
     
-    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+    override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         if indexPath.row == 0 {
-            guard let cellType = todayItem?.itemCellType else {return UITableViewCell()}
-            guard let todayItem = todayItem  else {  return UITableViewCell()}
-            
-            switch cellType {
-            case .list:
-                return configureTodayDeatailHeaderCell(todayItem,DailyListCVC())
-            case .today:
-                return configureTodayDeatailHeaderCell(todayItem,TodayCVC())
-            }
+         
         }
-        return  TableCell()
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cellId2", for: indexPath)
+        return  cell
+    }
+ 
+    
+     override func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
+        guard let cellType = todayItem?.itemCellType else {return UICollectionReusableView()}
+        guard let todayItem = todayItem  else {  return UICollectionReusableView()}
+        
+        switch cellType {
+        case .list:
+            return configureTodayDeatailHeaderCell(todayItem,DailyListCVC(), indexPath)
+        case .today:
+            return configureTodayDeatailHeaderCell(todayItem,TodayCVC(), indexPath)
+        }
     }
     
-    fileprivate func configureTodayDeatailHeaderCell(_ todayItem: todayItem  ,_ baseCell : TodayBaseCell ) -> UITableViewCell {
-        let cell =  TodayHeaderCell()
-        cell.todayCell = baseCell
-        cell.todayCell!.todayitem = todayItem
-        cell.closeButton.addTarget(self, action: #selector(handelCloseButtonClicked), for: .touchUpInside)
-        if let isCloseButtonHidden = self.isCloseButtonHidden {
-            cell.closeButton.isHidden = isCloseButtonHidden
-        }
-        cell.todayCell!.contentView.layer.cornerRadius = 0
-        return cell
-    }
+    
+     fileprivate func configureTodayDeatailHeaderCell(_ todayItem: todayItem  ,_ baseCell : TodayBaseCell ,_ indexPath : IndexPath ) -> UICollectionReusableView {
+         let cell = collectionView.dequeueReusableSupplementaryView(ofKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: "header", for: indexPath) as! TodayHeaderCell
+         cell.todayCell = baseCell
+         cell.todayCell!.todayitem = todayItem
+         cell.closeButton.addTarget(self, action: #selector(handelCloseButtonClicked), for: .touchUpInside)
+         if let isCloseButtonHidden = self.isCloseButtonHidden {
+             cell.closeButton.isHidden = isCloseButtonHidden
+         }
+         cell.todayCell!.contentView.layer.cornerRadius = 0
+         return cell
+     }
     
 
     // MARK: - TableView Delegate
 
-    override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        if indexPath.row == 0 {
-            return headerCellHeight
-        }
-        return 460
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        return CGSize(width: collectionView.frame.width , height:  460 )
     }
-
-
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
+        return  CGSize(width: collectionView.frame.width , height:  headerCellHeight )
+    }
+    
 }
 
 //MARK:- TableView Regular cell Class
 
-class TableCell : UITableViewCell {
+class TableCell : UICollectionViewCell {
     let descriptionLabel : UILabel = {
         let label = UILabel()
         
@@ -141,8 +141,8 @@ class TableCell : UITableViewCell {
         
     }
     
-    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
-        super.init(style: style, reuseIdentifier: reuseIdentifier)
+    override init(frame: CGRect) {
+        super.init(frame:frame)
         addingUIElemntsTotheView()
         setupUIConstrains()
     }
@@ -155,7 +155,7 @@ class TableCell : UITableViewCell {
 //MARK:- TableView Header cell Class
 
 
-class TodayHeaderCell : UITableViewCell {
+class TodayHeaderCell : UICollectionReusableView {
     
     var todayCell : TodayBaseCell? {
         didSet{
@@ -199,9 +199,8 @@ class TodayHeaderCell : UITableViewCell {
        
     }
     
-    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
-        super.init(style: style, reuseIdentifier: reuseIdentifier)
-        
+    override init(frame: CGRect) {
+        super.init(frame:frame)
         addingUIElemntsTotheView()
         setupUIConstrains()
     }
@@ -221,3 +220,11 @@ class TodayHeaderCell : UITableViewCell {
 //        return 400
 //    }
 //
+
+//func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+//       if indexPath.row == 0 {
+//           return  CGSize(width: collectionView.frame.width , height:  headerCellHeight )
+//       }
+//       return CGSize(width: collectionView.frame.width , height:  460 )
+//   }
+   
