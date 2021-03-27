@@ -31,11 +31,27 @@
 		1388D5DB24D0B43600C736EE /* VerticalStackView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1388D5DA24D0B43600C736EE /* VerticalStackView.swift */; };
 		13A51C9624D47F4D008F9A26 /* TodayFullScreenBaseVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13A51C9524D47F4D008F9A26 /* TodayFullScreenBaseVC.swift */; };
 		13AC608B24B20EE800B79C86 /* appRatingsAndReviewsModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13AC608A24B20EE800B79C86 /* appRatingsAndReviewsModels.swift */; };
+		13B4F05E260401F200DB2EA1 /* topPaid.json in Resources */ = {isa = PBXBuildFile; fileRef = 13B4F05D260401F100DB2EA1 /* topPaid.json */; };
+		13B4F0612604022200DB2EA1 /* topFree.json in Resources */ = {isa = PBXBuildFile; fileRef = 13B4F0602604022200DB2EA1 /* topFree.json */; };
+		13B4F0642604026900DB2EA1 /* topAppsFeedModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13B4F0632604026900DB2EA1 /* topAppsFeedModels.swift */; };
 		13C6ADA024AAA0E600BE4727 /* ScreenShootsCVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13C6AD9F24AAA0E600BE4727 /* ScreenShootsCVC.swift */; };
 		13C6EA1E24BB5CCC00AE368C /* ExpandableCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13C6EA1D24BB5CCC00AE368C /* ExpandableCollectionViewCell.swift */; };
 		13C6EA2024BBCA8700AE368C /* TodayDetailVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13C6EA1F24BBCA8700AE368C /* TodayDetailVC.swift */; };
 		13D4F42424BFB9A400FFB894 /* todayItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13D4F42324BFB9A400FFB894 /* todayItem.swift */; };
 		13D6705324C287B10021C65E /* TodayBaseCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13D6705224C287B10021C65E /* TodayBaseCell.swift */; };
+		13F273BC2602DBFA001F5515 /* IconScrollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13F273BB2602DBFA001F5515 /* IconScrollView.swift */; };
+		13F273C02602DC67001F5515 /* MovingIconView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13F273BF2602DC67001F5515 /* MovingIconView.swift */; };
+		13F273C62602DD56001F5515 /* MovingIconCVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13F273C52602DD56001F5515 /* MovingIconCVC.swift */; };
+		13F273D42602E055001F5515 /* MYRIADPRO-BOLDCOND.OTF in Resources */ = {isa = PBXBuildFile; fileRef = 13F273CA2602E054001F5515 /* MYRIADPRO-BOLDCOND.OTF */; };
+		13F273D52602E055001F5515 /* MYRIADPRO-SEMIBOLDIT.OTF in Resources */ = {isa = PBXBuildFile; fileRef = 13F273CB2602E054001F5515 /* MYRIADPRO-SEMIBOLDIT.OTF */; };
+		13F273D62602E055001F5515 /* MYRIADPRO-BOLDIT.OTF in Resources */ = {isa = PBXBuildFile; fileRef = 13F273CC2602E054001F5515 /* MYRIADPRO-BOLDIT.OTF */; };
+		13F273D72602E055001F5515 /* MYRIADPRO-CONDIT.OTF in Resources */ = {isa = PBXBuildFile; fileRef = 13F273CD2602E054001F5515 /* MYRIADPRO-CONDIT.OTF */; };
+		13F273D82602E055001F5515 /* MYRIADPRO-BOLDCONDIT.OTF in Resources */ = {isa = PBXBuildFile; fileRef = 13F273CE2602E054001F5515 /* MYRIADPRO-BOLDCONDIT.OTF */; };
+		13F273D92602E055001F5515 /* MyriadPro-Light.otf in Resources */ = {isa = PBXBuildFile; fileRef = 13F273CF2602E054001F5515 /* MyriadPro-Light.otf */; };
+		13F273DA2602E055001F5515 /* MYRIADPRO-REGULAR.OTF in Resources */ = {isa = PBXBuildFile; fileRef = 13F273D02602E054001F5515 /* MYRIADPRO-REGULAR.OTF */; };
+		13F273DB2602E055001F5515 /* MYRIADPRO-BOLD.OTF in Resources */ = {isa = PBXBuildFile; fileRef = 13F273D12602E054001F5515 /* MYRIADPRO-BOLD.OTF */; };
+		13F273DC2602E055001F5515 /* MYRIADPRO-SEMIBOLD.OTF in Resources */ = {isa = PBXBuildFile; fileRef = 13F273D22602E054001F5515 /* MYRIADPRO-SEMIBOLD.OTF */; };
+		13F273DD2602E055001F5515 /* MYRIADPRO-COND.OTF in Resources */ = {isa = PBXBuildFile; fileRef = 13F273D32602E055001F5515 /* MYRIADPRO-COND.OTF */; };
 		722A83CD677CA1ACA7F6D6C6 /* Pods_AppStore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 51BA0D8C77505C5B96A7D421 /* Pods_AppStore.framework */; };
 		E012654623F8AFB90076E228 /* ColumnFlowLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = E012654523F8AFB90076E228 /* ColumnFlowLayout.swift */; };
 		E05E0F4323F6F40600A6995C /* AppSearchVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = E05E0F4223F6F40600A6995C /* AppSearchVC.swift */; };
@@ -83,11 +99,27 @@
 		1388D5DA24D0B43600C736EE /* VerticalStackView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VerticalStackView.swift; sourceTree = "<group>"; };
 		13A51C9524D47F4D008F9A26 /* TodayFullScreenBaseVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodayFullScreenBaseVC.swift; sourceTree = "<group>"; };
 		13AC608A24B20EE800B79C86 /* appRatingsAndReviewsModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = appRatingsAndReviewsModels.swift; sourceTree = "<group>"; };
+		13B4F05D260401F100DB2EA1 /* topPaid.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = topPaid.json; sourceTree = "<group>"; };
+		13B4F0602604022200DB2EA1 /* topFree.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = topFree.json; sourceTree = "<group>"; };
+		13B4F0632604026900DB2EA1 /* topAppsFeedModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = topAppsFeedModels.swift; sourceTree = "<group>"; };
 		13C6AD9F24AAA0E600BE4727 /* ScreenShootsCVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScreenShootsCVC.swift; sourceTree = "<group>"; };
 		13C6EA1D24BB5CCC00AE368C /* ExpandableCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpandableCollectionViewCell.swift; sourceTree = "<group>"; };
 		13C6EA1F24BBCA8700AE368C /* TodayDetailVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodayDetailVC.swift; sourceTree = "<group>"; };
 		13D4F42324BFB9A400FFB894 /* todayItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = todayItem.swift; sourceTree = "<group>"; };
 		13D6705224C287B10021C65E /* TodayBaseCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodayBaseCell.swift; sourceTree = "<group>"; };
+		13F273BB2602DBFA001F5515 /* IconScrollView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IconScrollView.swift; sourceTree = "<group>"; };
+		13F273BF2602DC67001F5515 /* MovingIconView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovingIconView.swift; sourceTree = "<group>"; };
+		13F273C52602DD56001F5515 /* MovingIconCVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovingIconCVC.swift; sourceTree = "<group>"; };
+		13F273CA2602E054001F5515 /* MYRIADPRO-BOLDCOND.OTF */ = {isa = PBXFileReference; lastKnownFileType = file; path = "MYRIADPRO-BOLDCOND.OTF"; sourceTree = "<group>"; };
+		13F273CB2602E054001F5515 /* MYRIADPRO-SEMIBOLDIT.OTF */ = {isa = PBXFileReference; lastKnownFileType = file; path = "MYRIADPRO-SEMIBOLDIT.OTF"; sourceTree = "<group>"; };
+		13F273CC2602E054001F5515 /* MYRIADPRO-BOLDIT.OTF */ = {isa = PBXFileReference; lastKnownFileType = file; path = "MYRIADPRO-BOLDIT.OTF"; sourceTree = "<group>"; };
+		13F273CD2602E054001F5515 /* MYRIADPRO-CONDIT.OTF */ = {isa = PBXFileReference; lastKnownFileType = file; path = "MYRIADPRO-CONDIT.OTF"; sourceTree = "<group>"; };
+		13F273CE2602E054001F5515 /* MYRIADPRO-BOLDCONDIT.OTF */ = {isa = PBXFileReference; lastKnownFileType = file; path = "MYRIADPRO-BOLDCONDIT.OTF"; sourceTree = "<group>"; };
+		13F273CF2602E054001F5515 /* MyriadPro-Light.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "MyriadPro-Light.otf"; sourceTree = "<group>"; };
+		13F273D02602E054001F5515 /* MYRIADPRO-REGULAR.OTF */ = {isa = PBXFileReference; lastKnownFileType = file; path = "MYRIADPRO-REGULAR.OTF"; sourceTree = "<group>"; };
+		13F273D12602E054001F5515 /* MYRIADPRO-BOLD.OTF */ = {isa = PBXFileReference; lastKnownFileType = file; path = "MYRIADPRO-BOLD.OTF"; sourceTree = "<group>"; };
+		13F273D22602E054001F5515 /* MYRIADPRO-SEMIBOLD.OTF */ = {isa = PBXFileReference; lastKnownFileType = file; path = "MYRIADPRO-SEMIBOLD.OTF"; sourceTree = "<group>"; };
+		13F273D32602E055001F5515 /* MYRIADPRO-COND.OTF */ = {isa = PBXFileReference; lastKnownFileType = file; path = "MYRIADPRO-COND.OTF"; sourceTree = "<group>"; };
 		51BA0D8C77505C5B96A7D421 /* Pods_AppStore.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_AppStore.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		51C203865558EE9041D775D7 /* Pods-AppStore.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AppStore.debug.xcconfig"; path = "Target Support Files/Pods-AppStore/Pods-AppStore.debug.xcconfig"; sourceTree = "<group>"; };
 		76E8F7EEA992971892828EE3 /* Pods-AppStore.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AppStore.release.xcconfig"; path = "Target Support Files/Pods-AppStore/Pods-AppStore.release.xcconfig"; sourceTree = "<group>"; };
@@ -174,6 +206,7 @@
 		133ABF0924B7842F009C2B68 /* today */ = {
 			isa = PBXGroup;
 			children = (
+				13F273C42602DD0C001F5515 /* MovingIconCell */,
 				133ABF0A24B7846B009C2B68 /* TodayCVC.swift */,
 				1361134B24C1F64600D08716 /* DailyListCVC.swift */,
 				13D6705224C287B10021C65E /* TodayBaseCell.swift */,
@@ -303,6 +336,40 @@
 			path = AppDetail;
 			sourceTree = "<group>";
 		};
+		13F273BE2602DC4D001F5515 /* MovingIcons */ = {
+			isa = PBXGroup;
+			children = (
+				13F273BB2602DBFA001F5515 /* IconScrollView.swift */,
+				13F273BF2602DC67001F5515 /* MovingIconView.swift */,
+			);
+			path = MovingIcons;
+			sourceTree = "<group>";
+		};
+		13F273C42602DD0C001F5515 /* MovingIconCell */ = {
+			isa = PBXGroup;
+			children = (
+				13F273C52602DD56001F5515 /* MovingIconCVC.swift */,
+			);
+			path = MovingIconCell;
+			sourceTree = "<group>";
+		};
+		13F273C92602E043001F5515 /* Fonts */ = {
+			isa = PBXGroup;
+			children = (
+				13F273D12602E054001F5515 /* MYRIADPRO-BOLD.OTF */,
+				13F273CA2602E054001F5515 /* MYRIADPRO-BOLDCOND.OTF */,
+				13F273CE2602E054001F5515 /* MYRIADPRO-BOLDCONDIT.OTF */,
+				13F273CC2602E054001F5515 /* MYRIADPRO-BOLDIT.OTF */,
+				13F273D32602E055001F5515 /* MYRIADPRO-COND.OTF */,
+				13F273CD2602E054001F5515 /* MYRIADPRO-CONDIT.OTF */,
+				13F273CF2602E054001F5515 /* MyriadPro-Light.otf */,
+				13F273D02602E054001F5515 /* MYRIADPRO-REGULAR.OTF */,
+				13F273D22602E054001F5515 /* MYRIADPRO-SEMIBOLD.OTF */,
+				13F273CB2602E054001F5515 /* MYRIADPRO-SEMIBOLDIT.OTF */,
+			);
+			path = Fonts;
+			sourceTree = "<group>";
+		};
 		9657D63C3BF0A532268A5756 /* Pods */ = {
 			isa = PBXGroup;
 			children = (
@@ -321,6 +388,9 @@
 				E0A87A57240738E800BD3F4A /* DataModel.swift */,
 				E0A90ACF240A83350038D8B5 /* AppGroub.swift */,
 				13D4F42324BFB9A400FFB894 /* todayItem.swift */,
+				13B4F05D260401F100DB2EA1 /* topPaid.json */,
+				13B4F0602604022200DB2EA1 /* topFree.json */,
+				13B4F0632604026900DB2EA1 /* topAppsFeedModels.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -339,9 +409,10 @@
 		E0A22D032408019D004FEDF3 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				E0A22D0A24089220004FEDF3 /* NestedHeaderCollectionView.swift */,
+				13F273BE2602DC4D001F5515 /* MovingIcons */,
 				E0A22D04240801C2004FEDF3 /* CustomCell */,
 				E0A22D05240801E5004FEDF3 /* layout */,
-				E0A22D0A24089220004FEDF3 /* NestedHeaderCollectionView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -389,6 +460,7 @@
 		E0D03CB623F6067600D755D5 /* AppStore */ = {
 			isa = PBXGroup;
 			children = (
+				13F273C92602E043001F5515 /* Fonts */,
 				1378EFE524CA1DB800E6EC8B /* Helpers */,
 				E0D03CC523F6068700D755D5 /* Info.plist */,
 				1362C66B249D268D0062F5F9 /* Application */,
@@ -461,8 +533,20 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				13F273DB2602E055001F5515 /* MYRIADPRO-BOLD.OTF in Resources */,
+				13B4F0612604022200DB2EA1 /* topFree.json in Resources */,
+				13F273DD2602E055001F5515 /* MYRIADPRO-COND.OTF in Resources */,
+				13B4F05E260401F200DB2EA1 /* topPaid.json in Resources */,
+				13F273DC2602E055001F5515 /* MYRIADPRO-SEMIBOLD.OTF in Resources */,
 				E0D03CC423F6068700D755D5 /* LaunchScreen.storyboard in Resources */,
+				13F273D42602E055001F5515 /* MYRIADPRO-BOLDCOND.OTF in Resources */,
+				13F273DA2602E055001F5515 /* MYRIADPRO-REGULAR.OTF in Resources */,
+				13F273D72602E055001F5515 /* MYRIADPRO-CONDIT.OTF in Resources */,
+				13F273D62602E055001F5515 /* MYRIADPRO-BOLDIT.OTF in Resources */,
 				E0D03CC123F6068700D755D5 /* Assets.xcassets in Resources */,
+				13F273D82602E055001F5515 /* MYRIADPRO-BOLDCONDIT.OTF in Resources */,
+				13F273D92602E055001F5515 /* MyriadPro-Light.otf in Resources */,
+				13F273D52602E055001F5515 /* MYRIADPRO-SEMIBOLDIT.OTF in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -518,15 +602,18 @@
 				1361134C24C1F64600D08716 /* DailyListCVC.swift in Sources */,
 				1362C65E249D26150062F5F9 /* URLParameterEncoder.swift in Sources */,
 				1309176B24A3789C0035C70E /* AppDetailVC.swift in Sources */,
+				13F273C02602DC67001F5515 /* MovingIconView.swift in Sources */,
 				13D4F42424BFB9A400FFB894 /* todayItem.swift in Sources */,
 				1362C65D249D26150062F5F9 /* ParameterEncoding.swift in Sources */,
 				E09CAC812409726500742DC6 /* headerFlowLayout.swift in Sources */,
 				E05E0F4323F6F40600A6995C /* AppSearchVC.swift in Sources */,
 				E012654623F8AFB90076E228 /* ColumnFlowLayout.swift in Sources */,
 				E05E0F4523F7120E00A6995C /* CustomViewCell.swift in Sources */,
+				13F273C62602DD56001F5515 /* MovingIconCVC.swift in Sources */,
 				136C7E0424CEE39F0003A930 /* Extentions.swift in Sources */,
 				E09CAC7F2409626F00742DC6 /* HeaderCustomHorizontalCollectionViewCell.swift in Sources */,
 				E0A22D0B24089220004FEDF3 /* NestedHeaderCollectionView.swift in Sources */,
+				13F273BC2602DBFA001F5515 /* IconScrollView.swift in Sources */,
 				E0A22D07240802D6004FEDF3 /* customHorizontalCollectionViewCell.swift in Sources */,
 				1362C66F249D27010062F5F9 /* AppsFeedModels.swift in Sources */,
 				E0A22CFF2407FEC2004FEDF3 /* GridFlowLayout.swift in Sources */,
@@ -546,6 +633,7 @@
 				E0A87A5E240747FA00BD3F4A /* AppsHorizontalController.swift in Sources */,
 				13D6705324C287B10021C65E /* TodayBaseCell.swift in Sources */,
 				E0A87A58240738E800BD3F4A /* DataModel.swift in Sources */,
+				13B4F0642604026900DB2EA1 /* topAppsFeedModels.swift in Sources */,
 				13C6EA1E24BB5CCC00AE368C /* ExpandableCollectionViewCell.swift in Sources */,
 				E0D03CB823F6067600D755D5 /* AppDelegate.swift in Sources */,
 				1378EFE924CA219500E6EC8B /* AnchoredConstraints.swift in Sources */,

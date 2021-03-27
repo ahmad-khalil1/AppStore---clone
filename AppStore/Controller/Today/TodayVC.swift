@@ -15,6 +15,8 @@ class TodayVC: UICollectionViewController {
     
     private let todayReuseIdentifier                        = "todayCell"
     private let dailyListReuseIdentifier                    = "dailyCell"
+    private let movingIconReuseIdentifier                    = "movingIconCell"
+
     
     private var todayItemsArray                             = [todayItem]()
     private let networkManager                              = NetworkManager()
@@ -64,6 +66,8 @@ class TodayVC: UICollectionViewController {
         collection?.backgroundColor                      = .systemGray6
         self.collectionView!.register(TodayCVC.self, forCellWithReuseIdentifier: todayReuseIdentifier)
         self.collectionView!.register(DailyListCVC.self, forCellWithReuseIdentifier: dailyListReuseIdentifier)
+        self.collectionView!.register(MovingIconCVC.self, forCellWithReuseIdentifier: movingIconReuseIdentifier)
+
     }
     //MARK:- Setting up the UI elemnts Position.
     
@@ -76,32 +80,67 @@ class TodayVC: UICollectionViewController {
     
     fileprivate func setTodayItemsArray() {
         self.todayItemsArray = [
-            todayItem(itemTitle:"LIFE HACK", itemImage: #imageLiteral(resourceName: "garden"), itemSubtitle: "Utilizing your Time", itemDescription: "All the tools and apps you need to intelligently organize your life the right way.", itemColor: .white, itemCellType: .today )
+          
+            todayItem(itemTitle:"LIFE HACK", itemImage: #imageLiteral(resourceName: "calendar (1) 2"), itemSubtitle: "Utilizing your Time", itemDescription: "All the tools and apps you need to intelligently organize your life the right way.", itemColor: .white, itemCellType: .today )
+            
+            ,  todayItem(itemTitle: "To get Things done faster", itemImage: nil, itemSubtitle: "Key to succseful productivity", itemDescription: "", itemColor:.white, itemCellType: .todayMovingIcon)
+            
             
             , todayItem(itemTitle: "DAILY LIST", itemSubtitle: self.topGrossingAppGroup?.title ?? "", itemDescription: "", itemColor: .white , itemCellType: .list, itemAppGroup: self.topGrossingAppGroup?.results ?? [] )
             
-            , todayItem(itemTitle:"HOLIDAYS", itemImage: #imageLiteral(resourceName: "holiday"), itemSubtitle: "Travel on Budget", itemDescription: "find out all you need to know on how to travel without packing everything. ", itemColor: #colorLiteral(red: 0.9872588515, green: 0.9629482627, blue: 0.7360867262, alpha: 1) , itemCellType: .today)
+            , todayItem(itemTitle:"HOLIDAYS", itemImage: #imageLiteral(resourceName: "beach-chair"), itemSubtitle: "Travel on Budget", itemDescription: "find out all you need to know on how to travel without packing everything. ", itemColor: #colorLiteral(red: 0.9872588515, green: 0.9629482627, blue: 0.7360867262, alpha: 1) , itemCellType: .today)
             
             , todayItem(itemTitle: "SECOND LIST", itemSubtitle: self.topPaidApps?.title ?? "" , itemDescription: "", itemColor: .white, itemCellType: .list, itemAppGroup: self.topPaidApps?.results ?? [])
         ]
     }
     
     fileprivate func fetchData(){
+
+        
+//        dispatchGroup.enter()
+//        networkManager.getAppsTopGrossingFeed { (appGroup, error ) in
+//            self.topGrossingAppGroup = appGroup
+//            self.dispatchGroup.leave()
+//        }
+//        dispatchGroup.enter()
+//        networkManager.getAppsTopPaidFeed { (appGroup, error) in
+//            self.topPaidApps = appGroup
+//            self.dispatchGroup.leave()
+//        }
         dispatchGroup.enter()
-        networkManager.getAppsTopGrossingFeed { (appGroup, error ) in
-            self.topGrossingAppGroup = appGroup
-            self.dispatchGroup.leave()
-        }
-        dispatchGroup.enter()
-        networkManager.getAppsTopPaidFeed { (appGroup, error) in
-            self.topPaidApps = appGroup
-            self.dispatchGroup.leave()
-        }
+        self.topPaidApps = getTodayFeed(feed: "topPaid")
+        self.topGrossingAppGroup = getTodayFeed(feed: "topFree")
+        self.collectionView.reloadData()
+
+        self.dispatchGroup.leave()
+
+        
         dispatchGroup.notify(queue: .main) {
             self.activityIndicator.stopAnimating()
             self.setTodayItemsArray()
             self.collectionView.reloadData()
         }
+    }
+    
+    func getTodayFeed(feed: String) -> AppGroup{
+        do{
+            if let bundelPath = Bundle.main.path(forResource: feed , ofType: "json"){
+                let jsonData = try String(contentsOfFile: bundelPath).data(using: .utf8)
+                
+                let parsedData = try JSONDecoder().decode(Apps_feed.self, from: jsonData!)
+
+                let entity = parsedData.feed.entry
+                var apps = [App]()
+                for entity in entity {
+                    let appTemp = App(name: entity.name, artistName: entity.artist, artistId: entity.id, artworkUrl100: entity.image.last, id: entity.id)
+                    apps.append(appTemp)
+                }
+                return  AppGroup(title: String(parsedData.feed.title.dropFirst(14)) , results: apps )
+            }
+        }catch{
+            print(error)
+        }
+        return AppGroup(title: "", results: [])
     }
     
     //MARK:- View Life Cycle.
@@ -140,7 +179,11 @@ class TodayVC: UICollectionViewController {
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: todayReuseIdentifier, for: indexPath) as! TodayCVC
             cell.todayitem = todayItemsArray[indexPath.row]
             return cell
-        }
+        case .todayMovingIcon:
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: movingIconReuseIdentifier, for: indexPath ) as! MovingIconCVC
+            cell.todayitem =  todayItemsArray[indexPath.row]
+            return cell
+            }
     }
     
     
@@ -214,6 +257,11 @@ extension TodayVC : UICollectionViewDelegateFlowLayout {
             animateFullScreenView(endFrame)
         case .list:
             let fullScreenView = showFullScreenView(indexPath, ViewController:  TodayAppListVC())
+            ConstrainFullScreenView(indexPath, fullScreenView: fullScreenView)
+            let endFrame = view.frame
+            animateFullScreenView(endFrame)
+        case .todayMovingIcon:
+            let fullScreenView = showFullScreenView(indexPath, ViewController:  TodayDetailVC())
             ConstrainFullScreenView(indexPath, fullScreenView: fullScreenView)
             let endFrame = view.frame
             animateFullScreenView(endFrame)

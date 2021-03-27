@@ -22,6 +22,7 @@ struct todayItem  {
     enum cellType {
         case list
         case today
+        case todayMovingIcon
     }
 }
  

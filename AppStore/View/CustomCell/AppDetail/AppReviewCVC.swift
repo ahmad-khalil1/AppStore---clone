@@ -180,7 +180,7 @@ class ReviewHorizantalCVC : UICollectionViewCell {
         stack.distribution                                = .fill
         stack.spacing                                     = 10
         stack.alignment                                   = .leading
-        stack.backgroundColor = .red
+//        stack.backgroundColor = .red
         stack.translatesAutoresizingMaskIntoConstraints   = false
         return stack
     }()
@@ -191,7 +191,7 @@ class ReviewHorizantalCVC : UICollectionViewCell {
         stack.distribution                                = .equalCentering
         stack.spacing                                     = 10
         stack.alignment                                   = .bottom
-        stack.backgroundColor = .blue
+//        stack.backgroundColor = .blue
         stack.translatesAutoresizingMaskIntoConstraints   = false
         return stack
     }()

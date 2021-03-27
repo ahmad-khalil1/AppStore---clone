@@ -87,19 +87,47 @@ class AppsVC: UIViewController {
     //MARK:- Data Configeration
     
     fileprivate func getAppsFeed() {
+//        dispatchGroup.enter()
+//        networkManager.getAppsFeed(with: ["new-apps-we-love" , "new-games-we-love" , "top-free"] ) { (appsGroups, error) in
+//            if let appsGroups = appsGroups {
+//                self.appsGroupArray = appsGroups
+//                self.dispatchGroup.leave()
+//            }
+//        }
+        
         dispatchGroup.enter()
-        networkManager.getAppsFeed(with: ["new-apps-we-love" , "new-games-we-love" , "top-free"] ) { (appsGroups, error) in
-            if let appsGroups = appsGroups {
-                self.appsGroupArray = appsGroups
-                self.dispatchGroup.leave()
-            }
-        }
+        self.appsGroupArray?.append(getTodayFeed(feed: "topPaid"))
+        self.appsGroupArray?.append(getTodayFeed(feed: "topFree"))
+        self.collectionView.reloadData()
+
+        self.dispatchGroup.leave()
         dispatchGroup.notify(queue:.main) {
             self.activityIndicator.stopAnimating()
             self.collectionView.reloadData()
         }
     }
     
+    func getTodayFeed(feed: String) -> AppGroup{
+        do{
+            if let bundelPath = Bundle.main.path(forResource: feed , ofType: "json"){
+                let jsonData = try String(contentsOfFile: bundelPath).data(using: .utf8)
+                
+                let parsedData = try JSONDecoder().decode(Apps_feed.self, from: jsonData!)
+
+                let entity = parsedData.feed.entry
+                var apps = [App]()
+                for entity in entity {
+                    let appTemp = App(name: entity.name, artistName: entity.artist, artistId: entity.id, artworkUrl100: entity.image.last, id: entity.id)
+                    apps.append(appTemp)
+                }
+                
+                return  AppGroup(title: String(parsedData.feed.title.dropFirst(14)), results: apps )
+            }
+        }catch{
+            print(error)
+        }
+        return AppGroup(title: "", results: [])
+    }
     //MARK:- Handling Events
     
     @objc fileprivate func handelAppSelection(_ notifcation : Notification){

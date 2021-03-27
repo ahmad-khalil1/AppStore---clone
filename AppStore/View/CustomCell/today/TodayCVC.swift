@@ -30,6 +30,7 @@ class TodayCVC: TodayBaseCell {
     
     let imageView : UIImageView = {
         let image = UIImageView(cornerRadius: 18)
+        image.contentMode = .scaleAspectFit
         image.clipsToBounds = true
         return image
     }()

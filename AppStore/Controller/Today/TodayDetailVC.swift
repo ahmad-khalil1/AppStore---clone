@@ -72,6 +72,9 @@ class TodayDetailVC : TodayFullScreenBaseVC {
             return configureTodayDeatailHeaderCell(todayItem,DailyListCVC(), indexPath)
         case .today:
             return configureTodayDeatailHeaderCell(todayItem,TodayCVC(), indexPath)
+        case .todayMovingIcon:
+            return configureTodayDeatailHeaderCell(todayItem,MovingIconCVC(), indexPath)
+
         }
     }
     
